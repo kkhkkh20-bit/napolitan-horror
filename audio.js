@@ -44,8 +44,8 @@
   // These are sound samples, not oscillators: no pitched arcade beeps.
   const SAMPLE_ROOT='https://raw.githubusercontent.com/ArahKarya/thock/main/src-tauri/sounds/';
   const sampleUrls={
-    type:SAMPLE_ROOT+'typewriter/key_press.wav',
-    typeSoft:SAMPLE_ROOT+'tactile/key_press.wav',
+    type:SAMPLE_ROOT+'thock/key_press.wav',
+    typeSoft:SAMPLE_ROOT+'thock/space_press.wav',
     mouse:SAMPLE_ROOT+'tactile/mouse_press.wav'
   };
   const sampleBuffers={};
@@ -69,9 +69,15 @@
     const src=ctx.createBufferSource(),g=ctx.createGain();
     src.buffer=buffer;
     const isMouse=name==='mouse';
-    src.playbackRate.value=isMouse?1:(.95+Math.random()*.10);
-    g.gain.value=isMouse?.36:.19;
-    src.connect(g);g.connect(master);src.start();
+    src.playbackRate.value=isMouse?1:(.73+Math.random()*.11);
+    g.gain.value=isMouse?.36:.26;
+    if(isMouse){src.connect(g);}
+    else{
+      const low=ctx.createBiquadFilter();
+      low.type='lowpass';low.frequency.value=1600;
+      src.connect(low);low.connect(g);
+    }
+    g.connect(master);src.start();
   }
   function mechanicalClick(isMouse=false){
     if(!ctx||!noiseBuffer)return;
