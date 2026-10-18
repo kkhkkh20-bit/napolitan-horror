@@ -369,7 +369,7 @@ function render(){
  $('endNextHint').textContent=value===0?'생존 실패 · 다시 도전해 다음 에피소드를 여세요':value===3?'완벽한 생존 · 별 3개 획득':'생존 성공 · 별 '+value+'개 획득';
  $('nextEpisodeBtn').hidden=!(value>0&&state.episode<EPISODES.length-1);
  $('endMeta').textContent='선택 중 위험한 행동 '+state.breach+'회';
- $('endFeedback').textContent=state.episode===0?storeEndingFeedback():'';return;}
+ $('endFeedback').textContent=state.episode===0?storeEndingFeedback():simpleEndingFeedback();return;}
  const sc=scenes[state.scene];$('chapterPlace').textContent=EPISODES[state.episode||0].place;$('footPlace').textContent=EPISODES[state.episode||0].title;
  $('time').textContent=sc.time;$('sceneLabel').textContent=sc.label;
  const activeImage=state.episode===0&&state.scene===4&&state.flags.mirror?'stock':state.episode===0&&state.scene===6&&state.flags.stock&&state.flags.receipt?'touch':sc.image;
@@ -453,6 +453,26 @@ function storeEndingFeedback(){
  if(state.result==='evidence')return '왜 별 1개일까? 창고에 사람이 있다는 사실을 알고도 구하지 않고 떠났다.';
  if(state.result==='replaced')return '왜 실패했을까? 나와 똑같은 사람이 밖에 있었다. 규칙대로 문이 열릴 때까지 기다려야 했다.';
  return '왜 실패했을까? 위험을 피하는 대신 전기를 꺼 버렸다. 그 바람에 시간이 처음으로 돌아갔다.';
+}
+
+function simpleEndingFeedback(){
+ if(state.episode===1){
+  return ({
+   truth:'무슨 일이 있었나? 13층 표시는 가짜였다. 거울 속 숫자와 버튼의 글씨를 확인해 진짜 12층으로 돌아왔다.',
+   safe:'무슨 일이 있었나? 위험한 층에서 내리지 않고 비상벨을 눌렀다. 그 덕분에 구조됐다.',
+   stuck:'무슨 일이 있었나? 가짜 13층에 속아 계속 같은 층으로 돌아오고 있다.',
+   lost:'무슨 일이 있었나? 없는 13층에서 내렸다. 그래서 아파트로 돌아갈 길을 잃었다.'
+  })[state.result]||'12층으로 돌아갈 방법을 다시 찾아보세요.';
+ }
+ if(state.episode===2){
+  return ({
+   truth:'무슨 일이 있었나? 같은 정류장 안내가 세 번 나온 것은 버스가 이상한 길을 돌고 있다는 신호였다. 종을 한 번 쳐서 원래 길로 돌아왔다.',
+   safe:'무슨 일이 있었나? 이상한 정류장에서 내리지 않고 버스 안에 머물러 살아남았다.',
+   stuck:'무슨 일이 있었나? 버스에서 빠져나올 방법을 놓쳤다. 이제 같은 길을 다시 돌고 있다.',
+   lost:'무슨 일이 있었나? 방송만 믿고 없는 정류장에 내려서 길을 잃었다.'
+  })[state.result]||'버스 안에서 본 단서를 다시 살펴보세요.';
+ }
+ return '';
 }
 
 function chooseExtra(cmd){
