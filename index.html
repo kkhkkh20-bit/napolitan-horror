@@ -376,6 +376,10 @@ img{user-select:none;-webkit-user-drag:none;pointer-events:none}
  #end .endFeedback{font-size:10px;line-height:1.33}
 }
 
+
+.journalPages{display:flex;align-items:center;justify-content:space-between;gap:7px;margin:15px 0 4px;font:800 11px ui-monospace,"Apple SD Gothic Neo",monospace;color:#554433}
+.journalPages button{font:800 11px ui-monospace,"Apple SD Gothic Neo",monospace;min-height:37px;padding:6px 12px;border:1px solid #816951;background:#d7c29d;color:#302821}
+.journalPages button:disabled{opacity:.35}
 </style></head><body><div class="phone">
 <section id="title"><img id="titlePhoto" alt="비 내리는 밤의 편의점"><div class="titleInner hubInner"><div class="kicker">RULE HORROR · EXPERIENCE</div><h1 class="largeTitle">괴담<br>체험관</h1><div class="titleCopy">규칙을 기억하십시오.<br>하지만 누가 쓴 규칙인지도 의심하십시오.</div><div class="hubSound"><button type="button" id="soundTitle" class="soundTitle">소리 켜짐</button><span>첫 터치 후 공포 배경음과 효과음이 나옵니다.</span></div><div id="episodeCards" aria-label="에피소드 선택"></div><button id="resumeBtn" class="secondaryBtn" hidden>이전 이야기 이어하기</button><div class="caption">에피소드 완료 시 별 획득 · 다음 이야기 해금<br>별은 기기에 자동 저장됩니다.</div></div></section>
 <main id="game" hidden><header class="gameHeader"><div class="headerLeft"><span class="liveDot"></span> <span id="chapterPlace">07호점</span><span id="time">01:58</span></div><div class="hudActions"><button class="iconbtn soundMini" id="soundToggle" type="button" aria-label="소리 켜짐">소리 켜짐</button><button class="iconbtn noteBtn" id="notesBtn" type="button" aria-label="조사 기록">단서</button><button class="iconbtn" id="rulesBtn" type="button" aria-haspopup="dialog">규칙서</button></div></header>
@@ -594,11 +598,16 @@ function renderHotspots(){
  $('spotCount').hidden=!(state.episode===0&&pending);
  $('spotCount').textContent='사진에서 확인할 곳 '+pending+'개';
 }
+let journalPage=0;
 function noteMarkup(){
- const flags=state.flags||{}, entries=Object.entries(STORE.flagInfo).filter(([key])=>flags[key]);
- const body=entries.length?entries.map(([key,data])=>'<div class="rule"><strong>'+data[0]+'</strong><span>'+data[1]+'</span></div>').join(''):'<p class="sheetNote">아직 발견한 단서가 없다. 사진에서 작은 조사 표시를 찾아보자.</p>';
- return '<div class="paperHeading">조사 기록</div><div class="paperSubtitle">07호점 · 발견한 단서 '+entries.length+'개</div>'+body+
- '<p class="paperPostscript">다시 확인할 수 있습니다.</p>';
+ const flags=state.flags||{},entries=Object.entries(STORE.flagInfo).filter(([key])=>flags[key]);
+ const totalPages=Math.max(1,Math.ceil(entries.length/4));
+ journalPage=Math.max(0,Math.min(journalPage,totalPages-1));
+ const subset=entries.slice(journalPage*4,journalPage*4+4);
+ const body=subset.length?subset.map(([key,data])=>'<div class="rule"><strong>'+data[0]+'</strong><span>'+data[1]+'</span></div>').join(''):'<p class="sheetNote">아직 발견한 단서가 없다. 사진에서 밝은 조사 표시를 찾아보자.</p>';
+ const pager=totalPages>1?'<div class="journalPages"><button type="button" data-journal-change="-1"'+(journalPage===0?' disabled':'')+'>이전 기록</button><span>'+(journalPage+1)+' / '+totalPages+'</span><button type="button" data-journal-change="1"'+(journalPage>=totalPages-1?' disabled':'')+'>다음 기록</button></div>':'';
+ return '<div class="paperHeading">조사 기록</div><div class="paperSubtitle">07호점 · 발견한 단서 '+entries.length+'개</div>'+body+pager+
+ '<p class="paperPostscript">선택하기 전에 언제든 확인 가능</p>';
 }
 function storeEndingFeedback(){
  const f=state.flags||{};
@@ -654,7 +663,7 @@ function choose(cmd){if(state.mode!=='play'||!$('sheet').hidden)return;
  switch(cmd){
  case 'readrules':state.flags.manual=true;safeStore();showSheet(rulesMarkup());return;
  case 'inspect_ink':inspectHotspot(STORE.hotspots[0][0]);return;
- case 'inspect_more':showSheet(noteMarkup());return;
+ case 'inspect_more':journalPage=0;showSheet(noteMarkup());return;
  case 'next':next();return;
  case 'cash_refuse':next('“카드로 결제하셨어요.” 손님이 손을 내려다본다. 방금까지 있던 돈이 사라졌다.');return;
  case 'cash_give':state.breach++;next('오천 원을 주자 여자가 웃었다. 손가락이 여섯 개다.','shadow');return;
@@ -685,7 +694,8 @@ $('again').addEventListener('click',reset);
 $('nextEpisodeBtn').addEventListener('click',()=>startEpisode((state.episode||0)+1));
 $('home').addEventListener('click',()=>{SFX.play('tap');state.mode='title';safeStore();render()});
 $('rulesBtn').addEventListener('click',()=>showSheet(rulesMarkup()));
-$('notesBtn').addEventListener('click',()=>showSheet(state.episode===0?noteMarkup():'<div class="paperHeading">조사 기록</div><p class="sheetNote">다음 장소로 가기 전에 주변을 관찰하세요.</p>'));
+$('notesBtn').addEventListener('click',()=>{journalPage=0;showSheet(state.episode===0?noteMarkup():'<div class="paperHeading">조사 기록</div><p class="sheetNote">다음 장소로 가기 전에 주변을 관찰하세요.</p>')});
+$('sheetBody').addEventListener('click',e=>{const b=e.target.closest('[data-journal-change]');if(!b||b.disabled)return;journalPage+=Number(b.dataset.journalChange);SFX.play('paper');$('sheetBody').innerHTML=noteMarkup();});
 $('dialogueBox').addEventListener('click',advance);$('photoWrap').addEventListener('click',advance);
 $('sheetClose').addEventListener('click',()=>{SFX.play('tap');$('sheet').hidden=true;render()});$('sheet').addEventListener('click',e=>{if(e.target===$('sheet')){$('sheet').hidden=true;render();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sheet').hidden){$('sheetClose').click();return}if(e.key===' '&&state.mode==='play'&&$('sheet').hidden){e.preventDefault();advance()}});
