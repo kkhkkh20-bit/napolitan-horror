@@ -69,15 +69,17 @@
     const src=ctx.createBufferSource(),g=ctx.createGain();
     src.buffer=buffer;
     const isMouse=name==='mouse';
-    src.playbackRate.value=isMouse?1:(.73+Math.random()*.11);
-    g.gain.value=isMouse?.36:.26;
-    if(isMouse){src.connect(g);}
-    else{
-      const low=ctx.createBiquadFilter();
-      low.type='lowpass';low.frequency.value=1600;
-      src.connect(low);low.connect(g);
-    }
+    // Deliberately extremely low, dull "tadadak" keyboard sound.
+    // 0.30-0.36x playback and a 360 Hz low-pass eliminate bright clicks.
+    src.playbackRate.value=isMouse?.72:(.30+Math.random()*.06);
+    g.gain.value=isMouse?.32:.68;
+    const low=ctx.createBiquadFilter();
+    low.type='lowpass';low.frequency.value=isMouse?900:360;
+    low.Q.value=.65;
+    src.connect(low);low.connect(g);
     g.connect(master);src.start();
+    // Short per-letter thuds, so fast typing doesn't smear into a rumble.
+    if(!isMouse)src.stop(ctx.currentTime+.105);
   }
   function mechanicalClick(isMouse=false){
     if(!ctx||!noiseBuffer)return;
