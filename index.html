@@ -185,6 +185,30 @@ body{display:flex;justify-content:center} .phone{position:relative;width:100%;ma
 #game .dialogueArea{padding-bottom:max(10px,env(safe-area-inset-bottom))}
 @media(max-height:680px){.sheetContent{max-height:88svh;padding:23px 22px 28px}.rule{padding:10px 0;font-size:14px}}
 
+
+/* Immersive portrait photo overlay, dialogue and choices share one full-screen scene. */
+#game{position:relative;height:100svh;min-height:0;max-height:100dvh;overflow:hidden;display:block;background:#030506}
+@supports(height:100dvh){#game{height:100dvh}}
+#game .photoWrap,#game.choosing .photoWrap{position:absolute;inset:0;width:100%;height:100%;min-height:0;z-index:0}
+#game #shot{object-fit:cover;object-position:center center;width:100%;height:100%;filter:brightness(.83) contrast(1.09)}
+#game .photoWrap:after{background:linear-gradient(to bottom,#010203a6 0%,transparent 18%,transparent 42%,#01020391 68%,#010203ee 100%);z-index:1}
+#game .gameHeader{position:absolute;left:0;top:0;width:100%;z-index:12;background:linear-gradient(#040609e8,#04060955);border:0;padding-top:env(safe-area-inset-top);height:calc(55px + env(safe-area-inset-top));pointer-events:none}
+#game .gameHeader button{pointer-events:auto}
+#game .sceneLabel{top:calc(62px + env(safe-area-inset-top));background:#06080a99}
+#game .dialogueArea{position:absolute;left:0;right:0;bottom:0;z-index:5;max-height:73%;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;background:transparent;border:0;padding:0 12px calc(33px + env(safe-area-inset-bottom));pointer-events:none}
+#game .dialogueBox{pointer-events:auto;flex:0 0 auto;min-height:0;padding:15px 17px 17px;border:1px solid #81909275;border-radius:12px;background:#090c0fe3;box-shadow:0 10px 30px #0009;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#game #dialogueText{font-size:clamp(15px,3.9vw,17px);line-height:1.6}
+#game .speaker{margin-bottom:6px}
+#game #choices{pointer-events:auto;flex:0 1 auto;overflow-y:auto;min-height:0;overscroll-behavior:contain;padding:12px 0 0;display:grid;gap:8px}
+#game #choices[hidden]{display:none!important}
+#game .choice{min-height:51px;background:#12191def;border:1px solid #77858cbb;border-radius:9px;padding:11px 13px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 16px #0008}
+#game .choice.special{background:#322422ed}
+#game .footstatus{position:absolute;bottom:0;left:0;right:0;z-index:6;background:transparent;border:0;padding:0 15px max(8px,env(safe-area-inset-bottom));font-size:10px;pointer-events:none;text-shadow:0 1px 5px #000}
+#game .photoWrap{touch-action:manipulation}
+#sheet{position:fixed;inset:0;z-index:80;align-items:center;justify-content:center;pointer-events:auto;padding:22px 12px; background:#000c}
+#sheet .sheetContent{position:relative;width:min(410px,calc(100% - 20px));height:auto;max-height:min(78dvh,660px);overflow-y:auto;margin:auto;transform:rotate(-1deg) scale(.98);box-shadow:0 15px 80px #000c,inset 0 0 55px #72503145}
+#sheet .sheetClose{position:sticky;top:0}
+@media(max-height:700px){#game .dialogueArea{max-height:79%;padding-bottom:calc(22px + env(safe-area-inset-bottom))}#game .dialogueBox{padding:10px 13px}#game .choice{min-height:43px;padding:8px 11px}#game #choices{gap:6px}#game .sceneLabel{top:calc(56px + env(safe-area-inset-top))}}
 </style></head><body><div class="phone">
 <section id="title"><img id="titlePhoto" alt="비 내리는 밤의 편의점"><div class="titleInner hubInner"><div class="kicker">RULE HORROR · EXPERIENCE</div><h1 class="largeTitle">괴담<br>체험관</h1><div class="titleCopy">규칙을 기억하십시오.<br>하지만 누가 쓴 규칙인지도 의심하십시오.</div><div id="episodeCards" aria-label="에피소드 선택"></div><button id="resumeBtn" class="secondaryBtn" hidden>이전 이야기 이어하기</button><div class="caption">에피소드 완료 시 별 획득 · 다음 이야기 해금<br>별은 기기에 자동 저장됩니다.</div></div></section>
 <main id="game" hidden><header class="gameHeader"><div class="headerLeft"><span class="liveDot"></span> <span id="chapterPlace">07호점</span><span id="time">01:58</span></div><button class="iconbtn" id="rulesBtn" type="button" aria-haspopup="dialog">규칙서 보기</button></header>
