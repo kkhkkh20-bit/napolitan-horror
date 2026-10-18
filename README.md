@@ -1,19 +1,32 @@
-# 새벽 편의점: 02시 17분
+# 괴담 체험관 | RULE HORROR
 
-휴대폰 세로 화면용 나폴리탄 괴담 비주얼노벨. 이미지, 터치 대사, 선택지, 분기 결말을 포함한 단일 HTML 게임입니다.
+휴대폰 세로 화면을 위한 나폴리탄 괴담 체험형 비주얼노벨. 별도 설치 없이 브라우저에서 터치로 진행합니다.
 
 ## 플레이
+https://kkhkkh20-bit.github.io/napolitan-horror/
 
-GitHub Pages: https://kkhkkh20-bit.github.io/napolitan-horror/
+## 에피소드 (3편)
+1. 새벽 편의점: 02시 17분
+2. 13층 없는 아파트
+3. 막차 안내방송
 
-파일로 실행하려면 `index.html`을 브라우저에서 여세요. iOS 파일 미리보기에서는 일부 스크립트 클릭이 차단될 수 있으므로, GitHub Pages 웹 주소에서 실행하는 방법을 권장합니다.
+플레이 중 상단의 **규칙서 보기**를 누르면 선택 직전에도 규칙을 재확인할 수 있습니다. 규칙서를 보거나 닫아도 스토리는 진행되지 않습니다.
 
-## 배포 설정
+## 진행 및 별
+- 생존한 결말을 얻으면 별 1~3개를 획득하고 다음 에피소드가 열립니다.
+- 진상을 정확히 파악하고 규칙 위반을 피하면 최고 별 3개를 얻습니다.
+- 실패 결말은 별 0개입니다. 다시 도전할 수 있습니다.
+- 에피소드별 최고 별점은 현재 브라우저의 localStorage에 저장됩니다. 다른 기기·브라우저 사이에는 동기화되지 않습니다.
+- 마지막 플레이 중인 에피소드는 이어하기로 재개할 수 있습니다.
 
-레포의 **Settings → Pages → Build and deployment → Deploy from a branch → main → /(root) → Save** 에서 최초 1회 설정합니다.
+## 기술
+`index.html`: 모바일 게임 UI와 첫 에피소드, 진행 관리
 
-## 안내
+`episodes.js`: 추가 에피소드의 대사, 규칙, 이미지, 선택 로직
 
-가상의 공포 게임입니다. 기존 `daaegame`과 별도 프로젝트입니다.
+추가 두 에피소드의 배경은 임시 일러스트레이션(SVG)이며, 추후 실제 게임 아트로 교체할 수 있습니다.
 
-<!-- Re-trigger GitHub Pages branch build after enabling Pages: 2026-10-18 -->
+## GitHub Pages
+Settings → Pages → Build and deployment → Deploy from a branch → main / (root).
+
+다람탐정 레포와는 독립된 프로젝트입니다.
