@@ -355,7 +355,7 @@ function scoreFor(key){
  if(key==='safe')return state.breach<=1?2:1;
  return 0;
 }
-function reset(){SFX.revive();state={episode:state.episode||0,scene:0,beat:0,breach:0,flags:{},result:'',visual:'',mode:'play'};selectStory(state.episode);sheetAfter=null;saveAndRender();if(state.episode===0){state.flags.manual=true;safeStore();showSheet(rulesMarkup());}SFX.scene(0,state.episode,true);}
+function reset(){clearTyping();typedKey='';SFX.revive();state={episode:state.episode||0,scene:0,beat:0,breach:0,flags:{},result:'',visual:'',mode:'play'};selectStory(state.episode);sheetAfter=null;saveAndRender();if(state.episode===0){state.flags.manual=true;safeStore();showSheet(rulesMarkup());}SFX.scene(0,state.episode,true);}
 function saveAndRender(){safeStore();render()}
 function render(){
  selectStory(state.episode||0);
@@ -379,18 +379,57 @@ function render(){
  $('risk').textContent=state.episode===0?'찾은 단서 '+Object.keys(STORE.flagInfo||{}).filter(k=>state.flags[k]).length+'개':'규칙 위반 '+state.breach+'회';renderHotspots();
  const lines=state.result? [['방금 전',state.result],...sc.lines]:sc.lines;
  const endLine=state.beat>=lines.length-1;
- if(endLine){const l=lines[lines.length-1];$('speaker').textContent=l[0];$('dialogueText').textContent=l[1];}
- else{const l=lines[state.beat];$('speaker').textContent=l[0];$('dialogueText').textContent=l[1];}
- $('choices').hidden=!endLine;$('game').classList.toggle('choosing',endLine);
+ const l=lines[Math.min(state.beat,lines.length-1)];
+ $('speaker').textContent=l[0];
+ $('choices').hidden=true;
+ $('game').classList.toggle('choosing',endLine);
  $('choices').replaceChildren();
  if(endLine)sc.choices.forEach((ch,i)=>{
   const b=document.createElement('button');b.className='choice'+(['rescue','next'].includes(ch[1])?' special':'');b.type='button';
   const n=document.createElement('span');n.className='num';n.textContent=String(i+1).padStart(2,'0');b.append(n,document.createTextNode(ch[0]));b.addEventListener('click',()=>choose(ch[1]));$('choices').append(b);
  });
+ const key=[state.episode||0,state.scene,state.beat,state.result,l[0]].join(':');
+ showTyping(l[1],key,()=>{$('choices').hidden=!endLine;});
 }
-function advance(){if(state.mode!=='play'||!$('sheet').hidden)return;const lines=scenes[state.scene].lines.length+(state.result?1:0);if(state.beat<lines-1){SFX.play('tap');state.beat++;saveAndRender();}}
+let typingTimer=null,typingActive=false,typedKey='',typedChars=[],typedPos=0,finishTypingCallback=null;
+function clearTyping(){
+ if(typingTimer!==null){window.clearInterval(typingTimer);typingTimer=null;}
+}
+function finishTyping(){
+ if(!typingActive)return;
+ clearTyping();typingActive=false;
+ $('dialogueText').textContent=typedChars.join('');
+ if(finishTypingCallback)finishTypingCallback();
+}
+function showTyping(text,key,onDone){
+ if(typedKey===key){
+  // Opening/closing a note does not rewind text already read.
+  finishTypingCallback=onDone;
+  if(!typingActive)onDone();
+  return;
+ }
+ clearTyping();typedKey=key;typedChars=Array.from(text||'');typedPos=0;
+ typingActive=true;finishTypingCallback=onDone;
+ $('dialogueText').textContent='';
+ const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(reduced||!window.setInterval||!typedChars.length){finishTyping();return;}
+ typingTimer=window.setInterval(()=>{
+  if(state.mode!=='play'||!$('sheet').hidden)return;
+  const ch=typedChars[typedPos++];
+  $('dialogueText').textContent+=ch;
+  if(ch && ch.trim())SFX.play('type');
+  if(typedPos>=typedChars.length)finishTyping();
+ },39);
+}
+function advance(){
+ if(state.mode!=='play'||!$('sheet').hidden)return;
+ if(typingActive){finishTyping();return;}
+ const lines=scenes[state.scene].lines.length+(state.result?1:0);
+ if(state.beat<lines-1){SFX.play('tap');state.beat++;saveAndRender();}
+}
 function next(result='',visual=''){state.scene+=1;state.beat=0;state.result=result;state.visual=visual;saveAndRender();SFX.scene(state.scene,state.episode)}
 function ending(key){
+ clearTyping();typedKey='';typingActive=false;
  const stars=scoreFor(key);state.mode='end';state.result=key;state.stars=stars;SFX.ending(stars>0);
  if(stars>0){const best=loadStars();best[state.episode]=Math.max(Number(best[state.episode]||0),stars);try{localStorage.setItem(SCORE_KEY,JSON.stringify(best))}catch(e){}}
  saveAndRender();
