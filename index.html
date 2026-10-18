@@ -74,13 +74,124 @@ body{display:flex;justify-content:center} .phone{position:relative;width:100%;ma
 .endAction .mainBtn+button{margin-top:10px}
 #nextEpisodeBtn{background:#d2bb98;color:#171717}
 @media(max-height:700px){.hubInner{padding-top:35px}.epCard{min-height:98px}.epCard img{min-height:98px}.epCardCopy{padding:9px 12px}}
+
+/* Worn, torn paper artifact: tap to close; no dialogue next controls. */
+#sheet {
+  align-items:center;
+  padding: max(18px, env(safe-area-inset-top)) 12px max(18px, env(safe-area-inset-bottom));
+  background:radial-gradient(ellipse at center,#101014e8 0%,#000e 82%);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.sheetContent {
+  position:relative;
+  width:min(425px,calc(100% - 12px));
+  height:auto;
+  max-height:min(83svh,740px);
+  padding:30px 27px 40px;
+  border:0;
+  border-radius:0;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  background:
+    radial-gradient(ellipse at 88% 90%,#72502f39 0%,transparent 29%),
+    radial-gradient(ellipse at 10% 6%,#73573224 0%,transparent 35%),
+    repeating-linear-gradient(17deg,transparent 0px,transparent 43px,#795e3820 44px,transparent 46px),
+    linear-gradient(158deg,#dfd3b6 0%,#efdfb9 17%,#e5d4ae 54%,#c5ad83 100%);
+  color:#30291f;
+  transform:rotate(-.65deg);
+  box-shadow:inset 0 0 55px #72503145, inset 0 0 7px #f9e9c6;
+  clip-path:polygon(0.4% 0.7%,7% 0.2%,15% 1%,24% .3%,35% .9%,44% .1%,57% 1.1%,69% .1%,82% .8%,91% .1%,99.5% 1.5%,98.9% 11%,99.6% 21%,98.8% 33%,99.4% 47%,98.7% 59%,99.5% 73%,99% 86%,99.3% 98.5%,91% 99.4%,82% 98.9%,74% 99.6%,64% 99%,54% 99.7%,43% 98.8%,32% 99.8%,23% 98.9%,13% 99.7%,4% 98.8%,.4% 99.2%,1.2% 87%,.2% 75%,1% 63%,.2% 49%,1.2% 36%,.3% 22%,1% 11%);
+  scrollbar-width:thin;
+  scrollbar-color:#82684b #e4d2a9;
+}
+.sheetContent:before{
+  content:"";pointer-events:none;position:absolute;z-index:2;
+  top:1px;left:39%;width:21%;height:20px;
+  transform:rotate(2deg);
+  background:linear-gradient(100deg,#bba27a88,#f8e7baad 50%,#ad9066aa);
+  box-shadow:0 2px 5px #6c553f1e;
+  border-left:1px solid #846d543f;border-right:1px solid #846d543f;
+}
+.sheetContent:after{
+  content:"";pointer-events:none;position:absolute;
+  right:-30px;bottom:8px;width:150px;height:150px;
+  border:13px solid #71472414;border-radius:50%;
+  filter:blur(6px);transform:rotate(35deg);
+}
+.sheetHead{
+  margin-bottom:22px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:10px;border-bottom:1px solid #59422e6b;padding:0 0 10px;
+}
+.sheetStamp{
+  font:700 11px/1.4 ui-monospace,monospace;
+  letter-spacing:.13em;color:#9a514b;
+  transform:rotate(-2deg);
+}
+.sheetClose {
+  position:relative;z-index:4;
+  min-height:38px;
+  padding:6px 12px;
+  border:1px dashed #806b4a;
+  border-radius:2px;
+  color:#41301d;background:#e9d9b7c9;
+  font:700 13px ui-monospace,monospace;
+}
+.paperHeading{
+  text-align:center;
+  font-family:"AppleMyungjo","Nanum Myeongjo",Batang,Georgia,serif;
+  font-weight:900;font-size:23px;letter-spacing:.09em;color:#211d19;
+  text-decoration:underline;text-decoration-thickness:1px;
+  text-underline-offset:7px;margin:7px 0 16px;
+}
+.paperSubtitle{
+  color:#6c5440;text-align:center;font-size:12px;letter-spacing:.09em;
+}
+.sheetNote{
+  position:relative;font-family:"AppleMyungjo",Batang,serif;
+  color:#65523c;font-size:13px;line-height:1.75;
+  margin:18px 0 12px;
+}
+.rule{
+  color:#26231e;
+  border-bottom:1px dotted #8d70574d;
+  padding:13px 0 14px;
+  font-family:"AppleMyungjo",Batang,serif;
+  font-size:15px;line-height:1.75;
+  align-items:flex-start;gap:12px;
+}
+.rule strong{
+  color:#604a32;font:700 12px/2 ui-monospace,monospace;
+  min-width:23px;
+}
+.rule.last{
+  background:transparent;
+  color:#8e3934;
+  padding:17px 3px;
+  margin:8px -3px 0;
+  border-bottom:0;
+  font-family:"Nanum Pen Script","Nanum Brush Script","Apple SD Gothic Neo",cursive;
+  font-size:16px;line-height:1.8;font-weight:650;
+  transform:rotate(-1deg);
+}
+.rule.last strong{color:#93352e}
+.paperPostscript{
+  font-family:"Nanum Pen Script","Apple SD Gothic Neo",cursive;
+  text-align:right;font-size:14px;color:#7c4942;
+  margin:23px 3px 0;transform:rotate(-2deg);
+}
+#dialogueBox,#photoWrap{cursor:pointer}
+#game .dialogueArea{padding-bottom:max(10px,env(safe-area-inset-bottom))}
+@media(max-height:680px){.sheetContent{max-height:88svh;padding:23px 22px 28px}.rule{padding:10px 0;font-size:14px}}
+
 </style></head><body><div class="phone">
 <section id="title"><img id="titlePhoto" alt="비 내리는 밤의 편의점"><div class="titleInner hubInner"><div class="kicker">RULE HORROR · EXPERIENCE</div><h1 class="largeTitle">괴담<br>체험관</h1><div class="titleCopy">규칙을 기억하십시오.<br>하지만 누가 쓴 규칙인지도 의심하십시오.</div><div id="episodeCards" aria-label="에피소드 선택"></div><button id="resumeBtn" class="secondaryBtn" hidden>이전 이야기 이어하기</button><div class="caption">에피소드 완료 시 별 획득 · 다음 이야기 해금<br>별은 기기에 자동 저장됩니다.</div></div></section>
 <main id="game" hidden><header class="gameHeader"><div class="headerLeft"><span class="liveDot"></span> <span id="chapterPlace">07호점</span><span id="time">01:58</span></div><button class="iconbtn" id="rulesBtn" type="button" aria-haspopup="dialog">규칙서 보기</button></header>
-<div class="photoWrap" id="photoWrap" role="button" aria-label="화면을 터치해 대사 진행"><img id="shot" alt="새벽 편의점의 사건 현장"><span class="sceneLabel" id="sceneLabel">교대 첫날</span><span id="tapHint">사진 터치하여 계속 ›</span></div>
-<div class="dialogueArea"><div id="dialogueBox" class="dialogueBox" role="button" aria-label="대사 진행"><div class="speaker" id="speaker"></div><div id="dialogueText"></div><div id="nextMark">▼</div></div><div id="choices" hidden></div><div id="continueRow"><span>화면을 터치해 다음 대사</span><button id="nextBtn">다음 ›</button></div></div><div class="footstatus"><span id="footPlace">DAWN MART / 07</span><span id="risk">규칙 위반 0회</span></div></main>
+<div class="photoWrap" id="photoWrap" role="button" aria-label="화면을 터치해 대사 진행"><img id="shot" alt="새벽 편의점의 사건 현장"><span class="sceneLabel" id="sceneLabel">교대 첫날</span></div>
+<div class="dialogueArea"><div id="dialogueBox" class="dialogueBox" role="button" aria-label="대사 진행"><div class="speaker" id="speaker"></div><div id="dialogueText"></div></div><div id="choices" hidden></div></div><div class="footstatus"><span id="footPlace">DAWN MART / 07</span><span id="risk">규칙 위반 0회</span></div></main>
 <section id="end" hidden><img id="endImage" alt="결말 장면"><div class="endCopy"><div class="endTag" id="endTag"></div><h2 class="endHeading" id="endHeading"></h2><div class="endStory" id="endStory"></div><div class="starAward" id="starAward" aria-live="polite"></div><div id="endNextHint"></div><div class="endMeta" id="endMeta"></div></div><div class="endAction"><button id="nextEpisodeBtn" class="mainBtn" hidden>다음 에피소드 시작</button><button id="again" class="secondaryBtn">다시 도전</button><button id="home" class="secondaryBtn">에피소드 선택</button></div></section>
-<div id="sheet" hidden><div class="sheetContent"><div class="sheetHead"><h2>규칙서 · 조사 기록</h2><button id="sheetClose" class="sheetClose">닫기 ×</button></div><div id="sheetBody"></div></div></div>
+<div id="sheet" hidden><div class="sheetContent"><div class="sheetHead"><span class="sheetStamp">CONFIDENTIAL · 02:17</span><button id="sheetClose" class="sheetClose" type="button" aria-label="규칙서 닫기">× 닫기</button></div><div id="sheetBody"></div></div></div>
 </div><script src="episodes.js"></script><script>
 (()=>{
 'use strict';
@@ -192,17 +303,17 @@ function render(){
  const sc=scenes[state.scene];$('chapterPlace').textContent=EPISODES[state.episode||0].place;$('footPlace').textContent=EPISODES[state.episode||0].title;
  $('time').textContent=sc.time;$('sceneLabel').textContent=sc.label;$('shot').src=IMAGES[sc.image];$('risk').textContent='규칙 위반 '+state.breach+'회';
  const lines=state.result? [['방금 전',state.result],...sc.lines]:sc.lines;
- const endLine=state.beat>=lines.length;
+ const endLine=state.beat>=lines.length-1;
  if(endLine){const l=lines[lines.length-1];$('speaker').textContent=l[0];$('dialogueText').textContent=l[1];}
  else{const l=lines[state.beat];$('speaker').textContent=l[0];$('dialogueText').textContent=l[1];}
- $('choices').hidden=!endLine;$('continueRow').hidden=endLine;$('tapHint').hidden=endLine;$('game').classList.toggle('choosing',endLine);
+ $('choices').hidden=!endLine;$('game').classList.toggle('choosing',endLine);
  $('choices').replaceChildren();
  if(endLine)sc.choices.forEach((ch,i)=>{
   const b=document.createElement('button');b.className='choice'+(['rescue','next'].includes(ch[1])?' special':'');b.type='button';
   const n=document.createElement('span');n.className='num';n.textContent=String(i+1).padStart(2,'0');b.append(n,document.createTextNode(ch[0]));b.addEventListener('click',()=>choose(ch[1]));$('choices').append(b);
  });
 }
-function advance(){if(state.mode!=='play'||!$('sheet').hidden)return;const lines=scenes[state.scene].lines.length+(state.result?1:0);if(state.beat<lines){state.beat++;saveAndRender();}}
+function advance(){if(state.mode!=='play'||!$('sheet').hidden)return;const lines=scenes[state.scene].lines.length+(state.result?1:0);if(state.beat<lines-1){state.beat++;saveAndRender();}}
 function next(result=''){state.scene+=1;state.beat=0;state.result=result;saveAndRender()}
 function ending(key){
  const stars=scoreFor(key);state.mode='end';state.result=key;state.stars=stars;
@@ -212,9 +323,10 @@ function ending(key){
 function showSheet(html){$('sheetBody').innerHTML=html;$('sheet').hidden=false;}
 function rulesMarkup(){
  const ep=EPISODES[state.episode||0],note=ep.ruleNote||'생존 규칙';
- return '<div class="sheetNote">'+note+'<br>언제든 다시 읽을 수 있습니다. 게임 시간은 흐르지 않습니다.</div>'+
+ return '<div class="paperHeading">야 간 근 무 수 칙</div><div class="paperSubtitle">'+ep.title+' · 근무자 보관용</div>'+
+ '<div class="sheetNote">'+note+'</div>'+
  rules.map((r,i)=>'<div class="rule'+(i===rules.length-1?' last':'')+'"><strong>'+String(i+1).padStart(2,'0')+'</strong><span>'+r+'</span></div>').join('')+
- '<p class="sheetNote">이 지침 중 일부가 거짓일 수도 있습니다.</p>';
+ '<p class="paperPostscript">※ 규칙을 만든 사람을 믿지 마시오.</p>';
 }
 function chooseExtra(cmd){
  if(cmd==='readrules'){state.flags.manual=true;safeStore();showSheet(rulesMarkup());return}
@@ -261,7 +373,7 @@ $('again').addEventListener('click',reset);
 $('nextEpisodeBtn').addEventListener('click',()=>startEpisode((state.episode||0)+1));
 $('home').addEventListener('click',()=>{state.mode='title';safeStore();render()});
 $('rulesBtn').addEventListener('click',()=>showSheet(rulesMarkup()));
-$('dialogueBox').addEventListener('click',advance);$('photoWrap').addEventListener('click',advance);$('nextBtn').addEventListener('click',advance);
+$('dialogueBox').addEventListener('click',advance);$('photoWrap').addEventListener('click',advance);
 $('sheetClose').addEventListener('click',()=>{$('sheet').hidden=true;render()});$('sheet').addEventListener('click',e=>{if(e.target===$('sheet')){$('sheet').hidden=true;render();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sheet').hidden){$('sheetClose').click();return}if(e.key===' '&&state.mode==='play'&&$('sheet').hidden){e.preventDefault();advance()}});
 render();
