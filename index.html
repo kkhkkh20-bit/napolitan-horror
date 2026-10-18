@@ -253,6 +253,129 @@ body{display:flex;justify-content:center} .phone{position:relative;width:100%;ma
 @media(max-width:400px){#game .hudActions{gap:4px}#game .soundMini{font-size:10px;padding:5px 6px}#game .noteBtn,#game #rulesBtn{font-size:11px;padding:5px 7px}#game .headerLeft{font-size:10px;gap:4px}#game .inspectSpot{font-size:11px;padding:8px 9px}}
 @media(max-height:700px){#game .spotCount{top:calc(106px + env(safe-area-inset-top))}#game .inspectSpot{min-height:39px}}
 
+
+/* Retro arcade presentation and true one-screen smartphone layout */
+html,body{height:100%;height:100dvh;overflow:hidden;overscroll-behavior:none}
+body{-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.phone{height:100svh;height:100dvh;min-height:0;max-height:100dvh;overflow:hidden;border-left:2px solid #5a5b50;border-right:2px solid #5a5b50}
+img{user-select:none;-webkit-user-drag:none;pointer-events:none}
+#title,#game,#end{height:100svh;height:100dvh;min-height:0;max-height:100dvh;overflow:hidden}
+#title{justify-content:center}
+#title .hubInner{
+  box-sizing:border-box;position:relative;z-index:2;
+  height:100%;min-height:0;
+  padding:clamp(12px,3dvh,30px) clamp(14px,4vw,24px) max(12px,env(safe-area-inset-bottom));
+  display:flex;flex-direction:column;justify-content:center;gap:0;
+}
+#title .largeTitle{
+  font:900 clamp(29px,min(9vw,5.8dvh),49px)/1.08 ui-monospace,"Apple SD Gothic Neo",monospace;
+  letter-spacing:-.055em;margin:4px 0 8px;
+}
+#title .titleCopy{margin:0 0 clamp(5px,1.3dvh,14px);line-height:1.45;font-size:clamp(11px,2.8vw,13px)}
+#title .kicker{font:800 10px/1.3 ui-monospace,monospace;letter-spacing:.13em}
+#title .hubSound{margin-bottom:clamp(5px,1.2dvh,13px);gap:8px}
+#title .soundTitle{min-height:31px;padding:5px 11px}
+#title #episodeCards{gap:clamp(5px,1.05dvh,11px);min-height:0}
+#title .epCard{min-height:clamp(66px,12dvh,105px);height:clamp(66px,12dvh,105px);grid-template-columns:clamp(64px,20vw,93px) minmax(0,1fr);border-radius:2px;border:2px solid #656759}
+#title .epCard img{width:100%;height:100%;min-height:0;image-rendering:auto}
+#title .epCardCopy{padding:clamp(5px,1vw,12px);gap:2px}
+#title .epName{font-size:clamp(12px,3.5vw,16px);line-height:1.2}
+#title .epSub{font-size:clamp(9px,2.5vw,11px);line-height:1.25}
+#title .epStars{font-size:clamp(14px,3.7vw,18px)}
+#title .caption{margin-top:clamp(5px,1dvh,12px);font-size:9px;line-height:1.35}
+#title #resumeBtn{margin-top:6px;min-height:36px;font-size:11px}
+#game .gameHeader{border-bottom:2px solid #8c81718c;background:#060b0dda}
+#game .iconbtn,.soundTitle{
+  border-radius:1px;border:1px solid #ada18d;background:#0d191bdf;
+  box-shadow:inset -2px -2px #0008,inset 1px 1px #aeb3a54d;
+  font-family:ui-monospace,"Apple SD Gothic Neo",monospace;
+  letter-spacing:.01em;
+}
+#game .gameHeader .headerLeft,#game .sceneLabel,#game .spotCount,#game .footstatus{font-family:ui-monospace,"Apple SD Gothic Neo",monospace}
+#game .sceneLabel{border-radius:1px;border:1px solid #bca68d8a;background:#080f10c9}
+#game .dialogueArea{
+  bottom:0;
+  max-height:calc(100dvh - 72px - env(safe-area-inset-top));
+  padding:0 9px calc(26px + env(safe-area-inset-bottom));
+}
+#game .dialogueBox{
+  border:2px solid #b2aa92;border-radius:2px;
+  box-shadow:inset 2px 2px #6f756d52,inset -3px -3px #0008,0 8px 20px #000b;
+  background:#071012eb;
+  padding:clamp(9px,1.6dvh,16px) clamp(12px,3vw,17px);
+  min-height:0;
+}
+#game .speaker{color:#efc9a6;font:800 clamp(10px,2.5vw,13px)/1.2 ui-monospace,"Apple SD Gothic Neo",monospace}
+#game #dialogueText{
+  font-family:ui-monospace,"Apple SD Gothic Neo",monospace;
+  font-size:clamp(12px,3.5vw,16px);line-height:1.52;
+  letter-spacing:0;overflow-wrap:anywhere;
+}
+#game #choices{
+  min-height:0;max-height:none;overflow:hidden;
+  display:grid;gap:clamp(4px,.9dvh,8px);padding:clamp(7px,1dvh,12px) 0 0;
+  flex:0 0 auto;
+}
+#game .choice{
+  border-radius:2px;
+  min-height:clamp(38px,6dvh,52px);
+  padding:clamp(6px,1.05dvh,11px) 11px;
+  font:700 clamp(11px,3vw,14px)/1.28 ui-monospace,"Apple SD Gothic Neo",monospace;
+  border:1px solid #928a7a;background:#0d171bee;
+  box-shadow:inset 2px 2px #9e9a8266,inset -2px -2px #0009;
+}
+#game .choice .num{font:800 11px ui-monospace,monospace;color:#ddbc88}
+#game .choice.special{background:#31221fea;border-color:#d6b59a}
+#game .choice:active{background:#5a4a3e;transform:none}
+#game .hotspots{touch-action:manipulation}
+#game .inspectSpot{border-radius:2px;animation:spotPulse2 1.8s steps(2,end) infinite}
+#game .inspectSpot:not(.observed):before{border-radius:2px}
+#game .spotCount{border-radius:2px}
+#game .photoWrap:before{content:"";pointer-events:none;position:absolute;inset:0;z-index:3;
+  background:repeating-linear-gradient(180deg,#0000 0px,#0000 3px,#00000022 4px);
+  opacity:.55
+}
+#sheet{touch-action:manipulation}
+#sheet .sheetContent{overflow:hidden;max-height:calc(100dvh - 18px);width:min(405px,calc(100% - 12px));padding:clamp(14px,2dvh,27px) 20px clamp(19px,3dvh,33px)}
+#sheet .sheetHead{margin-bottom:clamp(8px,1.5dvh,18px)}
+#sheet .rule{padding:clamp(5px,1.3dvh,12px) 0;font-size:clamp(11px,3.1vw,14px);line-height:1.44}
+#sheet .paperHeading{font-size:clamp(17px,4.8vw,23px);margin:3px 0 10px}
+#sheet .paperSubtitle{font-size:11px}
+#sheet .sheetNote{font-size:clamp(11px,2.8vw,12px);line-height:1.4;margin:9px 0}
+#sheet .paperPostscript{margin:9px 0 0;font-size:12px}
+#sheet .inspectionText{font-size:clamp(12px,3.2vw,14px);line-height:1.53;margin:10px 0;overflow:hidden}
+#sheet .cluePhoto{height:clamp(65px,13dvh,105px);margin:10px 0}
+#end{position:relative;display:flex;flex-direction:column;justify-content:flex-end;background:#06090c}
+#endImage{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.4) contrast(1.08);z-index:0}
+#end:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,#0003,#05060991 30%,#050708f5 84%)}
+#end .endCopy{position:relative;z-index:2;flex:1;min-height:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(10px,2dvh,22px) 17px 5px;overflow:hidden}
+#end .endTag{font-size:10px}
+#end .endHeading{font-size:clamp(24px,6.3vw,34px);margin:7px 0 clamp(8px,1.4dvh,14px)}
+#end .endStory{font-size:clamp(11px,3vw,14px);line-height:1.5;max-height:none;overflow:hidden;white-space:pre-line}
+#end .endFeedback{font-size:clamp(11px,2.9vw,13px);line-height:1.45;margin:clamp(6px,1dvh,12px) 0}
+#end .starAward{font-size:clamp(23px,6vw,30px);letter-spacing:5px;margin:5px 0}
+#end #endNextHint{font-size:11px;margin:0;line-height:1.3}
+#end .endMeta{font-size:10px;margin:3px 0}
+#end .endAction{position:relative;z-index:3;flex-shrink:0;padding:0 17px max(13px,env(safe-area-inset-bottom))}
+#end .endAction button{min-height:clamp(34px,5.5dvh,48px);padding:8px 11px;font:800 12px ui-monospace,"Apple SD Gothic Neo",monospace;border-radius:2px;margin-top:5px}
+@media(max-height:610px){
+ #title .hubInner{padding-top:8px}
+ #title .titleCopy{font-size:11px;margin-bottom:5px}
+ #title .hubSound{margin-bottom:5px}
+ #title .epCard{min-height:62px;height:62px}
+ #title .caption{font-size:8px;margin-top:4px}
+ #game .dialogueArea{padding-bottom:calc(17px + env(safe-area-inset-bottom))}
+ #game .dialogueBox{padding:8px 11px}
+ #game #dialogueText{font-size:12px;line-height:1.35}
+ #game .choice{font-size:11px;min-height:35px;padding:6px 8px}
+ #game #choices{gap:4px}
+ #sheet .sheetContent{padding:11px 15px 20px}
+ #sheet .rule{font-size:11px;line-height:1.3;padding:4px 0}
+ #end .endHeading{font-size:23px}
+ #end .endStory{font-size:11px;line-height:1.35}
+ #end .endFeedback{font-size:10px;line-height:1.33}
+}
+
 </style></head><body><div class="phone">
 <section id="title"><img id="titlePhoto" alt="비 내리는 밤의 편의점"><div class="titleInner hubInner"><div class="kicker">RULE HORROR · EXPERIENCE</div><h1 class="largeTitle">괴담<br>체험관</h1><div class="titleCopy">규칙을 기억하십시오.<br>하지만 누가 쓴 규칙인지도 의심하십시오.</div><div class="hubSound"><button type="button" id="soundTitle" class="soundTitle">소리 켜짐</button><span>첫 터치 후 공포 배경음과 효과음이 나옵니다.</span></div><div id="episodeCards" aria-label="에피소드 선택"></div><button id="resumeBtn" class="secondaryBtn" hidden>이전 이야기 이어하기</button><div class="caption">에피소드 완료 시 별 획득 · 다음 이야기 해금<br>별은 기기에 자동 저장됩니다.</div></div></section>
 <main id="game" hidden><header class="gameHeader"><div class="headerLeft"><span class="liveDot"></span> <span id="chapterPlace">07호점</span><span id="time">01:58</span></div><div class="hudActions"><button class="iconbtn soundMini" id="soundToggle" type="button" aria-label="소리 켜짐">소리 켜짐</button><button class="iconbtn noteBtn" id="notesBtn" type="button" aria-label="조사 기록">단서</button><button class="iconbtn" id="rulesBtn" type="button" aria-haspopup="dialog">규칙서</button></div></header>
