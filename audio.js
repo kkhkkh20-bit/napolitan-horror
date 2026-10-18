@@ -38,6 +38,34 @@
     s.buffer=noiseBuffer;f.type=high?'highpass':'lowpass';f.frequency.value=cut;
     s.connect(f);f.connect(g);s.start(t);s.stop(t+dur+.03);
   }
+  // A mechanical key / mouse switch: two very short plastic transients,
+  // with no pitched "beep". Each keystroke varies slightly.
+  function mechanicalClick(isMouse=false){
+    if(!ctx||!noiseBuffer)return;
+    const t=ctx.currentTime;
+    const variation=.88+Math.random()*.24;
+    const peak=isMouse?.095:.038;
+    function snap(offset,duration,level,cutoff){
+      const src=ctx.createBufferSource(),hp=ctx.createBiquadFilter(),g=ctx.createGain();
+      src.buffer=noiseBuffer;
+      hp.type='highpass';hp.frequency.value=cutoff;
+      g.gain.setValueAtTime(.0001,t+offset);
+      g.gain.linearRampToValueAtTime(level*variation,t+offset+.0015);
+      g.gain.exponentialRampToValueAtTime(.0001,t+offset+duration);
+      src.connect(hp);hp.connect(g);g.connect(master);
+      src.start(t+offset);src.stop(t+offset+duration+.002);
+    }
+    snap(0,isMouse?.017:.012,peak,1200+Math.random()*350);
+    snap(isMouse?.038:.016,isMouse?.019:.013,peak*(isMouse?.43:.30),1700);
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='triangle';
+    o.frequency.setValueAtTime(isMouse?185:240,t);
+    o.frequency.exponentialRampToValueAtTime(isMouse?95:150,t+.023);
+    g.gain.setValueAtTime(.0001,t);
+    g.gain.linearRampToValueAtTime(isMouse?.035:.014,t+.002);
+    g.gain.exponentialRampToValueAtTime(.0001,t+.026);
+    o.connect(g);g.connect(master);o.start(t);o.stop(t+.028);
+  }
   function thump(at=0,vol=.14){
     tone(125,at,.12,vol,'triangle',38);
     hiss(at,.07,.035,420);
@@ -46,10 +74,10 @@
     if(!enabled||!init()||!playable)return;
     try{
       switch(name){
-        case 'tap':tone(520,0,.055,.044,'triangle',360);break;
-        case 'type':tone(440+Math.random()*85,0,.027,.022,'square',310);break;
+        case 'tap':mechanicalClick(true);break;
+        case 'type':mechanicalClick(false);break;
         case 'heartbeat':thump(0,.16);thump(.24,.1);break;
-        case 'select':tone(350,0,.09,.085,'sine',230);tone(630,.07,.15,.05,'sine',450);break;
+        case 'select':mechanicalClick(true);break;
         case 'paper':hiss(0,.23,.075,2600,true);hiss(.08,.32,.06,2000,true);tone(120,.04,.12,.016,'triangle');break;
         case 'clue':hiss(0,.16,.075,3200,true);tone(730,.08,.24,.055,'sine',1010);tone(1070,.22,.33,.035,'sine');break;
         case 'door':hiss(0,.85,.20,700);tone(160,.07,.57,.09,'sawtooth',80);hiss(.64,.24,.15,1350);thump(.81,.21);break;
