@@ -237,14 +237,30 @@ body{display:flex;justify-content:center} .phone{position:relative;width:100%;ma
 #game .photoWrap:has(.sceneEffect.visual-screen:not([hidden])) #shot{filter:brightness(.67) contrast(1.3) hue-rotate(19deg)}
 #game .photoWrap:has(.sceneEffect.visual-glass:not([hidden])) #shot{filter:brightness(.78) contrast(1.19) saturate(.76)}
 @media(prefers-reduced-motion:reduce){#game .inspectSpot,#game .sceneEffect.visual-screen{animation:none}}
+
+/* Accessible visual markers and audio control */
+.hubSound{position:relative;display:flex;align-items:center;gap:10px;color:#aebbb6;font-size:11px;line-height:1.55;margin:0 0 16px}
+.soundTitle{background:#242d31;border:1px solid #8f9790;color:#e7e2d8;flex:0 0 auto;border-radius:19px;min-height:37px;padding:7px 12px;font-weight:700;font-size:12px}
+#game .soundMini{background:#1a2427c9;border-color:#586565;color:#fff;min-height:39px;font-size:11px;padding:5px 8px}
+#game .inspectSpot{min-height:43px;border:2px solid #fff0b5;background:#160e0edc;color:#fff5dd;padding:10px 12px;font-size:13px;box-shadow:0 0 0 6px #f3df9330,0 0 20px #ffd2859c,0 8px 25px #000c;animation:spotPulse2 1.6s infinite}
+#game .inspectSpot:not(.observed):before{content:"";position:absolute;inset:-12px;border:2px solid #ffeea174;border-radius:24px;pointer-events:none}
+#game .inspectSpot.observed{background:#27332dcf;color:#a1baaa;border:1px solid #72917f;box-shadow:none;opacity:.78;animation:none}
+#game .spotCount{position:absolute;z-index:10;top:calc(114px + env(safe-area-inset-top));left:14px;background:#111419df;border:1px solid #ffd99b8c;border-radius:6px;color:#ffe6b7;padding:7px 9px;font-weight:800;font-size:12px;pointer-events:none}
+@keyframes spotPulse2{50%{box-shadow:0 0 0 11px #f3df9313,0 0 31px #ffda82c9,0 8px 25px #000c}}
+.cluePhoto{width:100%;height:110px;border:5px solid #f3e7ce;box-shadow:0 4px 12px #3b281831;margin:15px 0 4px;overflow:hidden;transform:rotate(1deg);background:#231f17}
+.cluePhoto img{width:100%;height:100%;object-fit:cover;filter:sepia(.22) brightness(.9)}
+#game .hudActions{gap:5px}
+@media(max-width:400px){#game .hudActions{gap:4px}#game .soundMini{font-size:10px;padding:5px 6px}#game .noteBtn,#game #rulesBtn{font-size:11px;padding:5px 7px}#game .headerLeft{font-size:10px;gap:4px}#game .inspectSpot{font-size:11px;padding:8px 9px}}
+@media(max-height:700px){#game .spotCount{top:calc(106px + env(safe-area-inset-top))}#game .inspectSpot{min-height:39px}}
+
 </style></head><body><div class="phone">
-<section id="title"><img id="titlePhoto" alt="비 내리는 밤의 편의점"><div class="titleInner hubInner"><div class="kicker">RULE HORROR · EXPERIENCE</div><h1 class="largeTitle">괴담<br>체험관</h1><div class="titleCopy">규칙을 기억하십시오.<br>하지만 누가 쓴 규칙인지도 의심하십시오.</div><div id="episodeCards" aria-label="에피소드 선택"></div><button id="resumeBtn" class="secondaryBtn" hidden>이전 이야기 이어하기</button><div class="caption">에피소드 완료 시 별 획득 · 다음 이야기 해금<br>별은 기기에 자동 저장됩니다.</div></div></section>
-<main id="game" hidden><header class="gameHeader"><div class="headerLeft"><span class="liveDot"></span> <span id="chapterPlace">07호점</span><span id="time">01:58</span></div><div class="hudActions"><button class="iconbtn noteBtn" id="notesBtn" type="button" aria-label="조사 기록">단서</button><button class="iconbtn" id="rulesBtn" type="button" aria-haspopup="dialog">규칙서</button></div></header>
-<div class="photoWrap" id="photoWrap" role="button" aria-label="화면을 터치해 대사 진행"><img id="shot" alt="새벽 편의점의 사건 현장"><span class="sceneLabel" id="sceneLabel">교대 첫날</span><div id="sceneEffect" class="sceneEffect" hidden aria-hidden="true"></div><div id="hotspots" class="hotspots" aria-label="사진 조사 지점"></div></div>
+<section id="title"><img id="titlePhoto" alt="비 내리는 밤의 편의점"><div class="titleInner hubInner"><div class="kicker">RULE HORROR · EXPERIENCE</div><h1 class="largeTitle">괴담<br>체험관</h1><div class="titleCopy">규칙을 기억하십시오.<br>하지만 누가 쓴 규칙인지도 의심하십시오.</div><div class="hubSound"><button type="button" id="soundTitle" class="soundTitle">소리 켜짐</button><span>첫 터치 후 공포 배경음과 효과음이 나옵니다.</span></div><div id="episodeCards" aria-label="에피소드 선택"></div><button id="resumeBtn" class="secondaryBtn" hidden>이전 이야기 이어하기</button><div class="caption">에피소드 완료 시 별 획득 · 다음 이야기 해금<br>별은 기기에 자동 저장됩니다.</div></div></section>
+<main id="game" hidden><header class="gameHeader"><div class="headerLeft"><span class="liveDot"></span> <span id="chapterPlace">07호점</span><span id="time">01:58</span></div><div class="hudActions"><button class="iconbtn soundMini" id="soundToggle" type="button" aria-label="소리 켜짐">소리 켜짐</button><button class="iconbtn noteBtn" id="notesBtn" type="button" aria-label="조사 기록">단서</button><button class="iconbtn" id="rulesBtn" type="button" aria-haspopup="dialog">규칙서</button></div></header>
+<div class="photoWrap" id="photoWrap" role="button" aria-label="화면을 터치해 대사 진행"><img id="shot" alt="새벽 편의점의 사건 현장"><span class="sceneLabel" id="sceneLabel">교대 첫날</span><div id="sceneEffect" class="sceneEffect" hidden aria-hidden="true"></div><div id="hotspots" class="hotspots" aria-label="사진 조사 지점"></div><div id="spotCount" class="spotCount" hidden></div></div>
 <div class="dialogueArea"><div id="dialogueBox" class="dialogueBox" role="button" aria-label="대사 진행"><div class="speaker" id="speaker"></div><div id="dialogueText"></div></div><div id="choices" hidden></div></div><div class="footstatus"><span id="footPlace">DAWN MART / 07</span><span id="risk">규칙 위반 0회</span></div></main>
 <section id="end" hidden><img id="endImage" alt="결말 장면"><div class="endCopy"><div class="endTag" id="endTag"></div><h2 class="endHeading" id="endHeading"></h2><div class="endStory" id="endStory"></div><div id="endFeedback" class="endFeedback"></div><div class="starAward" id="starAward" aria-live="polite"></div><div id="endNextHint"></div><div class="endMeta" id="endMeta"></div></div><div class="endAction"><button id="nextEpisodeBtn" class="mainBtn" hidden>다음 에피소드 시작</button><button id="again" class="secondaryBtn">다시 도전</button><button id="home" class="secondaryBtn">에피소드 선택</button></div></section>
 <div id="sheet" hidden><div class="sheetContent"><div class="sheetHead"><span class="sheetStamp">CONFIDENTIAL · 02:17</span><button id="sheetClose" class="sheetClose" type="button" aria-label="규칙서 닫기">× 닫기</button></div><div id="sheetBody"></div></div></div>
-</div><script src="episodes.js"></script><script src="store-investigation.js"></script><script>
+</div><script src="episodes.js"></script><script src="store-investigation.js"></script><script src="audio.js"></script><script>
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
@@ -253,6 +269,7 @@ const KEY='n17-mobile-v2';
 const SCORE_KEY='napolitan-stars-v3';
 const EXTRA_EPISODES=window.NAPOLITAN_EPISODES||[];
 const STORE=window.STORE_INVESTIGATION||{hotspots:{},flagInfo:{}};
+const SFX=window.HorrorAudio||{enabled:false,unlock(){},toggle(){},play(){},scene(){},ending(){},revive(){}};
 for(const ep of EXTRA_EPISODES) Object.assign(IMAGES,ep.images||{});
 const ep1Rules=[
 '02:00 이후 거스름돈을 요구하는 손님에게는 현금을 주지 마십시오.',
@@ -326,7 +343,7 @@ function renderHub(){
 }
 function startEpisode(index){
  if(!episodeUnlocked(index,loadStars()))return;
- state.episode=index;selectStory(index);reset();
+ SFX.revive();state.episode=index;selectStory(index);reset();SFX.scene(0,index,true);
 }
 function scoreFor(key){
  if(state.episode===0){
@@ -338,7 +355,7 @@ function scoreFor(key){
  if(key==='safe')return state.breach<=1?2:1;
  return 0;
 }
-function reset(){state={episode:state.episode||0,scene:0,beat:0,breach:0,flags:{},result:'',visual:'',mode:'play'};selectStory(state.episode);sheetAfter=null;saveAndRender();if(state.episode===0){state.flags.manual=true;safeStore();showSheet(rulesMarkup());}}
+function reset(){SFX.revive();state={episode:state.episode||0,scene:0,beat:0,breach:0,flags:{},result:'',visual:'',mode:'play'};selectStory(state.episode);sheetAfter=null;saveAndRender();if(state.episode===0){state.flags.manual=true;safeStore();showSheet(rulesMarkup());}SFX.scene(0,state.episode,true);}
 function saveAndRender(){safeStore();render()}
 function render(){
  selectStory(state.episode||0);
@@ -351,7 +368,7 @@ function render(){
  $('starAward').textContent='★'.repeat(value)+'☆'.repeat(3-value);
  $('endNextHint').textContent=value===0?'생존 실패 · 다시 도전해 다음 에피소드를 여세요':value===3?'완벽한 생존 · 별 3개 획득':'생존 성공 · 별 '+value+'개 획득';
  $('nextEpisodeBtn').hidden=!(value>0&&state.episode<EPISODES.length-1);
- $('endMeta').textContent='규칙 위반 '+state.breach+'회 · 발견한 단서 '+Object.keys(state.flags).filter(x=>state.flags[x]).length+'개';
+ $('endMeta').textContent='선택 중 위험한 행동 '+state.breach+'회';
  $('endFeedback').textContent=state.episode===0?storeEndingFeedback():'';return;}
  const sc=scenes[state.scene];$('chapterPlace').textContent=EPISODES[state.episode||0].place;$('footPlace').textContent=EPISODES[state.episode||0].title;
  $('time').textContent=sc.time;$('sceneLabel').textContent=sc.label;
@@ -359,7 +376,7 @@ function render(){
  $('shot').src=IMAGES[activeImage];
  const effect=$('sceneEffect');effect.hidden=!state.visual||state.episode!==0;effect.className='sceneEffect'+(state.visual?' visual-'+state.visual:'');
  effect.textContent=state.visual==='screen'?'REC 02:24':state.visual==='glass'?'세 번의 노크':state.visual==='door'?'비상 해제 장치':state.visual==='paper'?'잉크가 아직 젖어 있다':''; 
- $('risk').textContent=state.episode===0?'발견한 핵심 단서 '+coreEvidence().length+'/4':'규칙 위반 '+state.breach+'회';renderHotspots();
+ $('risk').textContent=state.episode===0?'찾은 단서 '+Object.keys(STORE.flagInfo||{}).filter(k=>state.flags[k]).length+'개':'규칙 위반 '+state.breach+'회';renderHotspots();
  const lines=state.result? [['방금 전',state.result],...sc.lines]:sc.lines;
  const endLine=state.beat>=lines.length-1;
  if(endLine){const l=lines[lines.length-1];$('speaker').textContent=l[0];$('dialogueText').textContent=l[1];}
@@ -371,14 +388,14 @@ function render(){
   const n=document.createElement('span');n.className='num';n.textContent=String(i+1).padStart(2,'0');b.append(n,document.createTextNode(ch[0]));b.addEventListener('click',()=>choose(ch[1]));$('choices').append(b);
  });
 }
-function advance(){if(state.mode!=='play'||!$('sheet').hidden)return;const lines=scenes[state.scene].lines.length+(state.result?1:0);if(state.beat<lines-1){state.beat++;saveAndRender();}}
-function next(result='',visual=''){state.scene+=1;state.beat=0;state.result=result;state.visual=visual;saveAndRender()}
+function advance(){if(state.mode!=='play'||!$('sheet').hidden)return;const lines=scenes[state.scene].lines.length+(state.result?1:0);if(state.beat<lines-1){SFX.play('tap');state.beat++;saveAndRender();}}
+function next(result='',visual=''){state.scene+=1;state.beat=0;state.result=result;state.visual=visual;saveAndRender();SFX.scene(state.scene,state.episode)}
 function ending(key){
- const stars=scoreFor(key);state.mode='end';state.result=key;state.stars=stars;
+ const stars=scoreFor(key);state.mode='end';state.result=key;state.stars=stars;SFX.ending(stars>0);
  if(stars>0){const best=loadStars();best[state.episode]=Math.max(Number(best[state.episode]||0),stars);try{localStorage.setItem(SCORE_KEY,JSON.stringify(best))}catch(e){}}
  saveAndRender();
 }
-function showSheet(html){$('sheetBody').innerHTML=html;$('sheet').hidden=false;}
+function showSheet(html,sound='paper'){SFX.play(sound);$('sheetBody').innerHTML=html;$('sheet').hidden=false;}
 function rulesMarkup(){
  const ep=EPISODES[state.episode||0],note=ep.ruleNote||'생존 규칙';
  const heading=state.episode===0?'07호점 근무 수칙':state.episode===1?'승강기 안전 안내문':'심야 승객 안내문';
@@ -398,7 +415,7 @@ function inspectHotspot(spot){
  const already=Boolean(state.flags[spot.flag]);
  state.flags[spot.flag]=true;state.visual=spot.kind||'paper';safeStore();render();
  const text=spot.text.split('\n').map(line=>line||'　').join('<br>');
- showSheet('<div class="paperHeading">'+spot.title+'</div><div class="paperSubtitle">'+(already?'다시 확인한 기록':'새로운 단서 발견')+'</div><p class="inspectionText">'+text+'</p><p class="paperPostscript">기록에 보관됨</p>');
+ showSheet('<div class="paperHeading">'+spot.title+'</div><div class="paperSubtitle">'+(already?'다시 확인함':'찾았다!')+'</div><div class="cluePhoto"><img src="'+IMAGES[scenes[state.scene].image]+'" alt="현장 사진"></div><p class="inspectionText">'+text+'</p><p class="paperPostscript">단서 목록에 저장됨</p>',already?'paper':'clue');
 }
 function renderHotspots(){
  const area=$('hotspots');area.replaceChildren();
@@ -407,16 +424,19 @@ function renderHotspots(){
   b.className='inspectSpot'+(state.flags[spot.flag]?' observed':'');
   b.style.left=spot.x+'%';b.style.top=spot.y+'%';
   b.setAttribute('aria-label',spot.label+' 조사');
-  b.textContent=(state.flags[spot.flag]?'✓ ':'⌕ ')+spot.label;
+  b.textContent=(state.flags[spot.flag]?'확인함 · ':'● ')+spot.label;
   b.addEventListener('click',e=>{e.stopPropagation();inspectHotspot(spot)});
   area.append(b);
  }
+ const pending=sceneSpots().filter(spot=>!state.flags[spot.flag]).length;
+ $('spotCount').hidden=!(state.episode===0&&pending);
+ $('spotCount').textContent='사진에서 확인할 곳 '+pending+'개';
 }
 function noteMarkup(){
  const flags=state.flags||{}, entries=Object.entries(STORE.flagInfo).filter(([key])=>flags[key]);
  const body=entries.length?entries.map(([key,data])=>'<div class="rule"><strong>'+data[0]+'</strong><span>'+data[1]+'</span></div>').join(''):'<p class="sheetNote">아직 발견한 단서가 없다. 사진에서 작은 조사 표시를 찾아보자.</p>';
  return '<div class="paperHeading">조사 기록</div><div class="paperSubtitle">07호점 · 발견한 단서 '+entries.length+'개</div>'+body+
- '<p class="paperPostscript">핵심 추리 증거 '+coreEvidence().length+' / 4</p>';
+ '<p class="paperPostscript">다시 확인할 수 있습니다.</p>';
 }
 function storeEndingFeedback(){
  const f=state.flags||{};
@@ -445,6 +465,7 @@ function chooseExtra(cmd){
  next(action.text||'');
 }
 function choose(cmd){if(state.mode!=='play'||!$('sheet').hidden)return;
+ SFX.play('select');
  if((state.episode||0)!==0){chooseExtra(cmd);return}
  switch(cmd){
  case 'readrules':state.flags.manual=true;safeStore();showSheet(rulesMarkup());return;
@@ -475,15 +496,20 @@ function choose(cmd){if(state.mode!=='play'||!$('sheet').hidden)return;
  }
 }
 $('titlePhoto').src=IMAGES.exterior;
-$('resumeBtn').addEventListener('click',()=>{const s=saved();if(s){state=s;selectStory(state.episode||0);render();}});
+$('resumeBtn').addEventListener('click',()=>{const s=saved();if(s){SFX.revive();state=s;selectStory(state.episode||0);render();SFX.scene(state.scene,state.episode,true)}});
 $('again').addEventListener('click',reset);
 $('nextEpisodeBtn').addEventListener('click',()=>startEpisode((state.episode||0)+1));
-$('home').addEventListener('click',()=>{state.mode='title';safeStore();render()});
+$('home').addEventListener('click',()=>{SFX.play('tap');state.mode='title';safeStore();render()});
 $('rulesBtn').addEventListener('click',()=>showSheet(rulesMarkup()));
 $('notesBtn').addEventListener('click',()=>showSheet(state.episode===0?noteMarkup():'<div class="paperHeading">조사 기록</div><p class="sheetNote">다음 장소로 가기 전에 주변을 관찰하세요.</p>'));
 $('dialogueBox').addEventListener('click',advance);$('photoWrap').addEventListener('click',advance);
-$('sheetClose').addEventListener('click',()=>{$('sheet').hidden=true;render()});$('sheet').addEventListener('click',e=>{if(e.target===$('sheet')){$('sheet').hidden=true;render();}});
+$('sheetClose').addEventListener('click',()=>{SFX.play('tap');$('sheet').hidden=true;render()});$('sheet').addEventListener('click',e=>{if(e.target===$('sheet')){$('sheet').hidden=true;render();}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('sheet').hidden){$('sheetClose').click();return}if(e.key===' '&&state.mode==='play'&&$('sheet').hidden){e.preventDefault();advance()}});
-render();
+function soundLabel(){const text=SFX.enabled?'소리 켜짐':'소리 꺼짐';$('soundToggle').textContent=text;$('soundTitle').textContent=text;$('soundToggle').setAttribute('aria-label',text)}
+function toggleAudio(){SFX.toggle();soundLabel()}
+$('soundTitle').addEventListener('click',toggleAudio);
+$('soundToggle').addEventListener('click',toggleAudio);
+document.addEventListener('pointerdown',()=>SFX.unlock(),{passive:true});
+soundLabel();render();
 })();
 </script></body></html>
