@@ -15,3 +15,5 @@ GitHub Pages: https://kkhkkh20-bit.github.io/napolitan-horror/
 ## 안내
 
 가상의 공포 게임입니다. 기존 `daaegame`과 별도 프로젝트입니다.
+
+<!-- Re-trigger GitHub Pages branch build after enabling Pages: 2026-10-18 -->
