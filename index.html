@@ -538,15 +538,17 @@ function showTyping(text,key,onDone){
  clearTyping();typedKey=key;typedChars=Array.from(text||'');typedPos=0;
  typingActive=true;finishTypingCallback=onDone;
  $('dialogueText').textContent='';
- const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- if(reduced||!window.setInterval||!typedChars.length){finishTyping();return;}
+ // Always type characters: device accessibility "reduce motion" must not silently
+ // disable the dialogue effect explicitly requested by the player.
+ if(!typedChars.length){finishTyping();return;}
+ if(typeof window.setInterval!=='function'){finishTyping();return;}
  typingTimer=window.setInterval(()=>{
   if(state.mode!=='play'||!$('sheet').hidden)return;
   const ch=typedChars[typedPos++];
   $('dialogueText').textContent+=ch;
   if(ch && ch.trim())SFX.play('type');
   if(typedPos>=typedChars.length)finishTyping();
- },39);
+ },67);
 }
 function advance(){
  if(state.mode!=='play'||!$('sheet').hidden)return;
