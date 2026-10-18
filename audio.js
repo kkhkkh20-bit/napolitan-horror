@@ -2,9 +2,9 @@
 (function(){
   'use strict';
   let ctx=null, master=null, ambiance=null, noiseBuffer=null;
-  let enabled=false, playable=false, lastScene='';
+  let enabled=true, playable=false, lastScene='';
   const PREF='napolitan-audio-enabled-v1';
-  try{enabled=localStorage.getItem(PREF)==='1'}catch(e){}
+  try{enabled=localStorage.getItem(PREF)!=='0'}catch(e){}
   function init(){
     if(ctx)return true;
     const AC=window.AudioContext||window.webkitAudioContext;
