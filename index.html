@@ -394,7 +394,7 @@ function coreEvidence(){
 }
 function sceneSpots(){return state.episode===0?(STORE.hotspots[state.scene]||[]):[]}
 function inspectHotspot(spot){
- if(state.mode!=='play')return;
+ if(state.mode!=='play'||!$('sheet').hidden)return;
  const already=Boolean(state.flags[spot.flag]);
  state.flags[spot.flag]=true;state.visual=spot.kind||'paper';safeStore();render();
  const text=spot.text.split('\n').map(line=>line||'　').join('<br>');
