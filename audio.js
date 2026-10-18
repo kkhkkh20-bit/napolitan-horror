@@ -40,6 +40,39 @@
   }
   // A mechanical key / mouse switch: two very short plastic transients,
   // with no pitched "beep". Each keystroke varies slightly.
+  // Keyboard/mouse WAV sound pack (CC0-1.0, ArahKarya/thock).
+  // These are sound samples, not oscillators: no pitched arcade beeps.
+  const SAMPLE_ROOT='https://raw.githubusercontent.com/ArahKarya/thock/main/src-tauri/sounds/';
+  const sampleUrls={
+    type:SAMPLE_ROOT+'typewriter/key_press.wav',
+    typeSoft:SAMPLE_ROOT+'tactile/key_press.wav',
+    mouse:SAMPLE_ROOT+'tactile/mouse_press.wav'
+  };
+  const sampleBuffers={};
+  let loadingSamples=false;
+  function loadSamples(){
+    if(!ctx||loadingSamples||typeof window.fetch!=='function')return;
+    loadingSamples=true;
+    for(const [name,url] of Object.entries(sampleUrls)){
+      window.fetch(url).then(r=>{
+        if(!r.ok)throw Error('sample HTTP '+r.status);
+        return r.arrayBuffer();
+      }).then(data=>ctx.decodeAudioData(data)).then(buffer=>{
+        sampleBuffers[name]=buffer;
+      }).catch(()=>{});
+    }
+  }
+  function sampleClick(name){
+    if(!ctx)return;
+    const buffer=sampleBuffers[name];
+    if(!buffer)return; // Avoid electronic fallback sounds.
+    const src=ctx.createBufferSource(),g=ctx.createGain();
+    src.buffer=buffer;
+    const isMouse=name==='mouse';
+    src.playbackRate.value=isMouse?1:(.95+Math.random()*.10);
+    g.gain.value=isMouse?.36:.19;
+    src.connect(g);g.connect(master);src.start();
+  }
   function mechanicalClick(isMouse=false){
     if(!ctx||!noiseBuffer)return;
     const t=ctx.currentTime;
@@ -74,10 +107,10 @@
     if(!enabled||!init()||!playable)return;
     try{
       switch(name){
-        case 'tap':mechanicalClick(true);break;
-        case 'type':mechanicalClick(false);break;
+        case 'tap':sampleClick('mouse');break;
+        case 'type':sampleClick(Math.random()<.78?'type':'typeSoft');break;
         case 'heartbeat':thump(0,.16);thump(.24,.1);break;
-        case 'select':mechanicalClick(true);break;
+        case 'select':sampleClick('mouse');break;
         case 'paper':hiss(0,.23,.075,2600,true);hiss(.08,.32,.06,2000,true);tone(120,.04,.12,.016,'triangle');break;
         case 'clue':hiss(0,.16,.075,3200,true);tone(730,.08,.24,.055,'sine',1010);tone(1070,.22,.33,.035,'sine');break;
         case 'door':hiss(0,.85,.20,700);tone(160,.07,.57,.09,'sawtooth',80);hiss(.64,.24,.15,1350);thump(.81,.21);break;
@@ -170,7 +203,7 @@
     if(!init())return false;
     playable=true;
     if(ctx.state==='suspended')ctx.resume().catch(()=>{});
-    if(enabled)startAmbient();
+    if(enabled)startAmbient();loadSamples();
     return true;
   }
   function toggle(){
