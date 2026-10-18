@@ -272,47 +272,47 @@ const STORE=window.STORE_INVESTIGATION||{hotspots:{},flagInfo:{}};
 const SFX=window.HorrorAudio||{enabled:false,unlock(){},toggle(){},play(){},scene(){},ending(){},revive(){}};
 for(const ep of EXTRA_EPISODES) Object.assign(IMAGES,ep.images||{});
 const ep1Rules=[
-'02:00 이후 거스름돈을 요구하는 손님에게는 현금을 주지 마십시오.',
-'CCTV 2번은 설치되어 있지 않습니다. 영상이 나오면 전원선을 분리하십시오.',
-'02:00 이후 점장은 전화하지 않습니다. 이름을 묻더라도 말하지 마십시오.',
-'02:17 이후 계산대 아래에서 들리는 목소리에는 답하지 마십시오.',
-'02:17부터 02:27까지 정문을 열지 마십시오.',
-'창고에 접근하지 마십시오. 구조 요청이 들려도 문을 열지 마십시오.'
+'새벽 2시 이후 거스름돈을 달라는 손님에게는 돈을 주지 마세요.',
+'CCTV는 1번뿐입니다. 2번 화면이 켜지면 전선을 뽑으세요.',
+'새벽 2시 이후 점장은 전화하지 않습니다. 전화 속 사람에게 이름을 알려주지 마세요.',
+'2시 17분 이후 계산대 아래에서 누가 불러도 대답하지 마세요.',
+'2시 17분부터 27분까지는 가게 정문을 열지 마세요.',
+'창고 문은 열지 마세요. 안에서 살려 달라고 해도 무시하세요.'
 ];
 const ep1Scenes=[
 {time:'01:58',image:'store',label:'교대 첫날',lines:[
-['독백','첫 야간 근무. 점장은 나오지 않았다. 계산대에는 전 근무자 한서윤의 이름표와 접힌 지침서만 남아 있다.'],
-['독백','지침서의 마지막 줄은 유난히 진하다. 종이 오른쪽 끝에 손자국 같은 얼룩도 있다.']],
-choices:[['누가 지침서를 고쳤는지 살핀다','inspect_ink'],['계산대로 가서 근무를 시작한다','next']]},
+['독백','오늘은 첫 야간 근무다. 점장은 오지 않았다. 계산대에는 전 근무자 한서윤의 이름표가 놓여 있다.'],
+['독백','옆에는 낡은 규칙서가 있다. 마지막 줄만 잉크가 번져 있다.']],
+choices:[['규칙서의 번진 잉크를 살펴본다','inspect_ink'],['계산대에서 손님을 기다린다','next']]},
 {time:'02:06',image:'customer',label:'첫 손님',lines:[
-['손님','“거스름돈 주세요.”'],['독백','검은 외투의 여자가 만 원짜리를 내민다. 그런데 포스기에는 카드 결제라고 표시된다.'],['손님','“여기 오천 원. 분명히 받아야 하잖아요?”']],
-choices:[['카드 결제 기록을 보여준다','cash_refuse'],['거스름돈을 건넨다','cash_give'],['계산대를 뒤져 다른 영수증을 찾는다','cash_receipt']]},
+['손님','“오천 원 거슬러 주세요.”'],['독백','검은 코트를 입은 여자가 돈을 내민다. 하지만 계산 기록에는 카드로 결제했다고 나온다.'],['손님','“빨리요. 아까 만 원 냈잖아요.”']],
+choices:[['카드로 결제했다고 말한다','cash_refuse'],['그냥 오천 원을 준다','cash_give'],['계산 기록을 다시 확인한다','cash_receipt']]},
 {time:'02:11',image:'cctv',label:'없는 카메라',lines:[
-['독백','손님이 나간 직후 CCTV 화면이 켜진다. 설치하지 않은 2번 채널이다.'],['독백','화면 안에는 계산대 아래를 들여다보는 내가 있다. 현실의 나는 모니터 앞에 서 있는데.']],
-choices:[['전원선을 뽑고 영상의 마지막 장면을 확인한다','cam_off'],['2번 화면을 계속 지켜본다','cam_watch'],['휴대폰으로 모니터를 촬영한다','cam_record']]},
+['독백','손님이 나가자 CCTV 2번 화면이 켜진다. 그런데 이 가게에는 카메라가 한 대뿐이다.'],['독백','화면 속에는 나와 똑같이 생긴 사람이 있다. 그 사람은 계산대 아래를 보고 있다.']],
+choices:[['규칙대로 CCTV 전선을 뽑는다','cam_off'],['이상한 화면을 계속 본다','cam_watch'],['화면을 사진으로 찍는다','cam_record']]},
 {time:'02:14',image:'phone',label:'점장의 전화',lines:[
-['전화 너머','“나 점장이에요. 계산대 아래에서 아이 목소리 들리죠?”'],['전화 너머','“거기 우리 딸이 있어요. 꺼내 주세요. 근데... 근무자 이름이 뭐였죠?”']],
-choices:[['이름을 말하지 않고 끊는다','phone_hang'],['점장 딸의 이름부터 묻는다','phone_question'],['내 이름을 알려준다','phone_name']]},
+['전화 속 남자','“나 점장이에요. 안에서 아이 우는 소리 안 나요?”'],['전화 속 남자','“우리 딸이에요. 그런데... 당신 이름이 뭐였더라?”']],
+choices:[['이름을 말하지 않고 전화를 끊는다','phone_hang'],['“딸 이름이 뭔데요?” 하고 묻는다','phone_question'],['내 이름을 말한다','phone_name']]},
 {time:'02:17',image:'counter',label:'계산대 아래',lines:[
-['독백','형광등이 두 번 깜빡인다. 벽시계가 02:17에서 멈춘다. 유리창에는 없는 사람이 비친다.'],['계산대 아래','“저기요... 제발. 여기 갇혔어요.”'],['계산대 아래','“얼굴만... 한 번 봐주면 되는데.”'],['독백','목소리가 어느새 내 목소리로 바뀌어 있다.']],
-choices:[['냉장고 유리에 비친 아래쪽을 살핀다','mirror'],['몸을 숙여 직접 확인한다','look'],['아무 말도 하지 않고 물러난다','ignore']]},
+['독백','불이 깜빡인다. 시계가 2시 17분에 멈춘다.'],['아래에서','“저기요... 여기 사람 있어요. 도와주세요.”'],['아래에서','“고개만 숙여서 저 좀 봐주세요.”'],['독백','그런데 마지막 말은... 내 목소리였다.']],
+choices:[['몸을 숙이지 않고 유리에 비친 모습을 본다','mirror'],['직접 계산대 아래를 들여다본다','look'],['못 들은 척 뒤로 물러난다','ignore']]},
 {time:'02:22',image:'customer',label:'우산 없는 아이',lines:[
-['독백','문이 열린 소리도 없는데 파란 옷의 아이가 서 있다. 발자국은 젖지 않았다.'],['아이','“아저씨. 계산대 아래를 찾는 거예요?”'],['아이','“그 사람은 아래에 없어요.”']],
-choices:[['“그럼 어디에 있는데?” 하고 묻는다','child_ask'],['아이를 내보낸다','child_out'],['아이에게 내 이름을 알려주며 안심시킨다','child_name']]},
+['독백','딩동. 문 앞에 파란 옷을 입은 아이가 서 있다. 비가 오는데 신발은 마르다.'],['아이','“아저씨. 밑에 누가 있어요?”'],['아이','“아니에요. 거긴 아무도 없어요.”']],
+choices:[['“그럼 어디에 있어?” 하고 묻는다','child_ask'],['아이에게 나가 달라고 한다','child_out'],['아이에게 이름을 말하며 안심시킨다','child_name']]},
 {time:'02:24',image:'stock',label:'세 번의 노크',lines:[
-['독백','창고에서 소리가 들린다. 똑. 똑. 똑. 3초 후, 다시 세 번.'],['독백','창고 문턱에 흰 선이 있다. 계산대에선 결제한 적 없는 영수증 한 장이 밀려 나온다.'],['독백','02:27까지 3분. 창고 문의 흰 선, 영수증, 덧붙인 작업 지시서를 손으로 짚어 확인할 수 있다.']],
-choices:[['주변을 더 조사한다','inspect_more'],['이제 결정을 내린다','next'],['02:27 전에 정문을 열고 나간다','escape']]},
+['독백','똑, 똑, 똑. 창고에서 세 번 노크 소리가 난다. 잠시 뒤 또 세 번.'],['독백','창고 문 옆에 작은 버튼이 보인다. 계산대에는 이상한 영수증 한 장이 놓여 있다.'],['독백','문 옆에 붙은 낡은 종이도 눈에 띈다. 창고 안에서는 계속 노크 소리가 난다.']],
+choices:[['찾은 단서를 다시 본다','inspect_more'],['창고 앞에서 마지막 결정을 한다','next'],['무서워서 지금 도망간다','escape']]},
 {time:'02:26',image:'touch',label:'최후의 선택',lines:[
-['독백','창고 문 안쪽에서 누군가 다시 세 번 두드린다.'],['???','“밖에 있는 사람한테 말하지 마. 그쪽은 내가 아니야.”'],['독백','정문 너머에는 나와 똑같은 사람이 서 있다. 하지만 위조된 규칙과 창고 문의 신호를 기억해야 한다.']],
-choices:[['창고 안에 같은 간격으로 세 번 두드린다','rescue'],['문을 열지 않고 02:27까지 기다린다','wait'],['정문을 열고 다른 나에게 간다','escape'],['차단기를 내려 모든 전원을 끈다','breaker']]}
+['독백','창고 문에서 또 세 번 노크한다. 바로 옆 정문에도 누군가 서 있다.'],['창고 안 여자','“밖에 서 있는 사람을 믿지 마세요. 그 사람은 제가 아니에요.”'],['독백','정문에 서 있는 사람은 나와 똑같이 생겼다. 창고 안에서는 여전히 세 번씩 두드린다.']],
+choices:[['창고 문을 세 번 두드리고 비상 버튼을 누른다','rescue'],['정문을 열지 않고 2시 27분까지 기다린다','wait'],['정문을 열고 그 사람에게 다가간다','escape'],['가게 전기를 전부 끈다','breaker']]}
 ];
 const ep1Endings={
-true:{tag:'ENDING 06 / 숨겨진 결말',title:'두 명의 퇴근',image:'ending_good',text:'똑. 똑. 똑.\n\n안쪽에서도 같은 간격의 세 번이 돌아온다. 비상 해제 스위치를 누르자 전 근무자 한서윤이 비틀거리며 걸어 나온다.\n\n“6번 규칙은 누가 새로 붙인 거예요. 그걸 보고 아무도 나를 안 찾았어요.”\n\n02:27. 우리는 정문으로 나왔다.\n\n하지만 CCTV에는 아직 계산대에 서 있는 또 다른 내가 찍혀 있다.'},
-solo:{tag:'ENDING 01 / 생존',title:'혼자 퇴근',image:'exterior',text:'02:27. 자동문이 열린다.\n\n밖은 평범한 새벽이다. 하지만 창고 문 아래로 종이 한 장이 밀려 나온다.\n\n「한서윤, 아직 근무 중」\n\n당신은 살아서 나왔다. 다른 사람도 그랬다는 뜻은 아니다.'},
-evidence:{tag:'ENDING 02 / 미완의 진실',title:'두고 나온 사람',image:'ending_good',text:'영수증의 뒷면에는 구조를 요청하는 사람의 이름이 있다.\n\n당신은 문을 열지 않고 빠져나온다.\n\n사흘 뒤, 집 현관에서 똑같은 간격의 노크가 세 번 들린다.'},
-replaced:{tag:'ENDING 03 / 실종',title:'대체 근무자',image:'ending_bad',text:'당신은 밖으로 나왔다고 믿는다.\n\n그런데 휴대폰은 얼굴을 인식하지 못하고, 사람들은 당신을 보지 못한다.\n\n07호점의 계산대에는 다른 당신이 서 있다.\n\n그 사람의 이름표에는 당신 이름이 적혀 있다.'},
-trapped:{tag:'ENDING 04 / 함정',title:'진열대 안쪽',image:'counter',text:'문 안쪽에서 손이 튀어나온다.\n\n눈을 뜨니 당신은 계산대 아래에 있다. 새 근무자의 발소리가 들린다.\n\n“저기요... 제발. 여기 갇혔어요.”\n\n이번에는 그 목소리가 당신의 것이다.'},
-loop:{tag:'ENDING 05 / 반복',title:'다음 근무자',image:'phone',text:'스위치를 내린 순간 모든 소리가 멎는다.\n\n시계는 다시 01:58.\n\n누군가 문을 두드린다.\n\n당신의 입이 저절로 움직인다.\n\n“계산대 아래 노트를 먼저 읽어주세요.”'}
+true:{tag:'ENDING 06 / 진실 발견',title:'두 명이 살아 나왔다',image:'ending_good',text:'창고에서 세 번의 노크가 돌아왔다.\n\n나는 비상 버튼을 눌렀다. 문이 열리자 전 근무자 한서윤이 나왔다.\n\n“누가 규칙을 고쳐서 날 여기 가둔 거예요.”\n\n우리는 함께 가게 밖으로 나왔다.\n\n그런데 꺼진 CCTV에 아직도 나와 똑같이 생긴 사람이 서 있다.'},
+solo:{tag:'ENDING 01 / 생존',title:'혼자 탈출했다',image:'exterior',text:'2시 27분. 나는 무사히 가게 밖으로 나왔다.\n\n하지만 창고 문은 끝까지 닫혀 있었다.\n\n안에 갇힌 전 근무자를 구하지 못했다. 창고에서 마지막 노크 소리가 들렸다.'},
+evidence:{tag:'ENDING 02 / 생존',title:'구하지 못한 사람',image:'ending_good',text:'영수증에서 창고 안에 사람이 있다는 걸 알았다.\n\n하지만 무서워서 문을 열지 않고 나왔다.\n\n며칠 뒤, 우리 집 문에서 세 번 노크 소리가 났다.'},
+replaced:{tag:'ENDING 03 / 실종',title:'밖으로 나왔는데...',image:'ending_bad',text:'나는 가게 밖으로 뛰쳐나갔다.\n\n그런데 아무도 나를 보지 못한다. 휴대폰도 내 얼굴을 알아보지 못한다.\n\n유리창 안에는 나와 똑같이 생긴 사람이 계산대에 서 있다.\n\n내 자리를 빼앗긴 것이다.'},
+trapped:{tag:'ENDING 04 / 실패',title:'계산대 아래에 갇히다',image:'counter',text:'창고에 누구 있는지 제대로 확인하지 않고 다가갔다.\n\n갑자기 누군가 내 발목을 잡았다.\n\n눈을 뜨니 나는 계산대 아래에 갇혀 있다.\n\n밖에 새 직원이 왔다. “저기요... 저 좀 꺼내 주세요.”\n\n그 목소리는 내 입에서 나오고 있었다.'},
+loop:{tag:'ENDING 05 / 반복',title:'같은 밤이 다시 시작됐다',image:'phone',text:'가게 전기를 모두 껐다.\n\n모든 게 조용해졌다. 그런데 시계는 다시 1시 58분.\n\n아까 들어왔던 손님이 또 들어온다.\n\n같은 밤을 처음부터 다시 겪게 된 것이다.'}
 };
 let rules=ep1Rules,scenes=ep1Scenes,endings=ep1Endings;
 const EPISODES=[{id:'store',title:'새벽 편의점',subtitle:'02시 17분, 야간 근무 첫날',place:'07호점',menuImage:'exterior',ruleNote:'07호점 야간 근무 지침서. 마지막 줄만 붉은 펜으로 덧써져 있다.'},...EXTRA_EPISODES];
@@ -343,7 +343,7 @@ function renderHub(){
 }
 function startEpisode(index){
  if(!episodeUnlocked(index,loadStars()))return;
- SFX.revive();state.episode=index;selectStory(index);reset();SFX.scene(0,index,true);
+ state.episode=index;selectStory(index);reset();
 }
 function scoreFor(key){
  if(state.episode===0){
@@ -440,17 +440,19 @@ function noteMarkup(){
 }
 function storeEndingFeedback(){
  const f=state.flags||{};
- if(state.result==='true')return '영수증의 구조 요청, 창고 비상 해제 장치, 위조된 6번 규칙과 현장의 모습을 연결했다.';
+ if(state.result==='true')return '진실: 전 직원 한서윤은 창고에 갇혀 있었다. 누군가 규칙서 6번을 거짓으로 고쳤다. 당신은 진짜 구조 요청을 알아보고 한서윤을 구했다.';
  if(state.result==='trapped'){
-  let lack=[];
-  if(!f.receipt)lack.push('영수증');if(!f.stock)lack.push('창고 장치');
-  if(!f.forgedProof)lack.push('위조된 규칙의 출처');
-  if(!(f.cameraProof||f.mirror))lack.push('실제 창고의 위치');
-  if(state.breach>2)lack.push('누적된 규칙 위반');
-  return '충분한 근거 없이 문 안에 응답했다.'+(lack.length?' 놓친 확인: '+lack.join(' · '):'');
+  const lack=[];
+  if(!f.receipt)lack.push('창고 안에서 쓴 쪽지');
+  if(!f.stock)lack.push('문 옆 비상 버튼');
+  if(!f.forgedProof)lack.push('거짓으로 바뀐 규칙');
+  if(!(f.cameraProof||f.mirror))lack.push('계산대 아래에 아무도 없다는 증거');
+  return '왜 실패했을까? 진짜 사람과 가짜 목소리를 구별하지 못했다.'+(lack.length?' 확인하지 못한 것: '+lack.join(', ')+'.':' 위험한 행동도 너무 많이 했다.');
  }
- if(state.result==='solo'||state.result==='evidence')return '혼자 생존했다. 창고 안의 신호가 진짜 구조 요청인지 아직 확인하지 못했다.';
- return '규칙과 실제 상황을 대조할 단서를 더 찾았다면 다른 결말이 가능했을 것이다.';
+ if(state.result==='solo')return '왜 별 1개일까? 당신은 살아남았지만 창고에 갇힌 사람을 발견하지 못했다.';
+ if(state.result==='evidence')return '왜 별 1개일까? 창고에 사람이 있다는 사실을 알고도 구하지 않고 떠났다.';
+ if(state.result==='replaced')return '왜 실패했을까? 나와 똑같은 사람이 밖에 있었다. 규칙대로 문이 열릴 때까지 기다려야 했다.';
+ return '왜 실패했을까? 위험을 피하는 대신 전기를 꺼 버렸다. 그 바람에 시간이 처음으로 돌아갔다.';
 }
 
 function chooseExtra(cmd){
@@ -472,20 +474,20 @@ function choose(cmd){if(state.mode!=='play'||!$('sheet').hidden)return;
  case 'inspect_ink':inspectHotspot(STORE.hotspots[0][0]);return;
  case 'inspect_more':showSheet(noteMarkup());return;
  case 'next':next();return;
- case 'cash_refuse':next('“카드로 결제하셨습니다.” 여자는 자신이 내민 돈을 내려다본다. 지폐는 없다.');return;
+ case 'cash_refuse':next('“카드로 결제하셨어요.” 손님이 손을 내려다본다. 방금까지 있던 돈이 사라졌다.');return;
  case 'cash_give':state.breach++;next('오천 원을 주자 여자가 웃었다. 손가락이 여섯 개다.','shadow');return;
- case 'cash_receipt':state.flags.receiptEarly=true;next('거래 기록은 모두 02:17에 멈춰 있다. 오늘 날짜가 아니다.','screen');return;
- case 'cam_off':state.flags.camera=true;next('전원선을 뽑는 순간 화면 속 나는 창고 쪽을 가리켰다.','blackout');return;
- case 'cam_watch':state.breach++;next('화면 속 내가 고개를 꺾자, 현실의 목이 저절로 돌아간다.','screen');return;
- case 'cam_record':state.flags.camera=true;next('촬영한 사진에는 내 뒤에 또 다른 내가 찍혀 있다.');return;
- case 'phone_hang':next('이름을 말하지 않고 끊었다. 전화선 너머에서 누군가 낮게 웃는다.');return;
- case 'phone_question':state.flags.caller=true;next('“딸 이름이 뭔데요?” 묻자 전화 속 남자는 내 이름을 속삭인다.');return;
+ case 'cash_receipt':state.flags.receiptEarly=true;next('계산 기록에는 카드 결제라고 쓰여 있다. 손님의 돈은 기록에 없다.','screen');return;
+ case 'cam_off':state.flags.camera=true;next('화면이 꺼지기 직전, 화면 속 내가 창고 문을 가리켰다.','blackout');return;
+ case 'cam_watch':state.breach++;next('화면 속 내가 뒤를 돌아본다. 나도 모르게 같은 방향으로 고개가 돌아간다.','screen');return;
+ case 'cam_record':state.flags.camera=true;next('사진을 보니 내 뒤에 나와 똑같은 사람이 서 있다.');return;
+ case 'phone_hang':next('전화를 끊자 수화기에서 낮게 웃는 소리가 났다.');return;
+ case 'phone_question':state.flags.caller=true;next('“딸 이름이 뭐죠?” 전화 속 남자는 대답 대신 내 이름을 말했다.');return;
  case 'phone_name':state.breach++;next('내 이름을 말하자, 계산대 아래에서 누군가 똑같이 따라 한다.','shadow');return;
- case 'mirror':state.flags.mirror=true;next('유리에 비친 계산대 아래는 비어 있다. 대신 창고 문 안에서 누군가 손을 흔든다.','glass');return;
- case 'look':state.breach+=2;next('아래에 웅크린 사람이 보인다. 그 사람은 정확히 나와 같은 얼굴이다.','shadow');return;
- case 'ignore':next('대답하지 않자 목소리가 한참 동안 내 이름을 부른다.');return;
- case 'child_ask':state.flags.child=true;next('아이는 “진짜 사람은 문을 두드려요. 세 번씩.”이라고 말한다.');return;
- case 'child_out':next('아이는 나가면서 말을 남긴다. “그럼 안쪽 사람은 어떡해요?”');return;
+ case 'mirror':state.flags.mirror=true;next('냉장고 유리로 봤다. 계산대 아래는 텅 비었다. 창고 문 아래에서만 손이 움직인다.','glass');return;
+ case 'look':state.breach+=2;next('아래를 들여다보니... 내 얼굴이 날 올려다보고 있다.','shadow');return;
+ case 'ignore':next('모른 척했다. 그러자 아래에서 내 이름을 계속 부른다.');return;
+ case 'child_ask':state.flags.child=true;next('아이가 창고를 가리킨다. “거기 사람이 있어요. 문을 세 번 두드려 봐요.”');return;
+ case 'child_out':next('아이는 나가며 창고를 가리켰다. “그 안에 있는 사람은요?”');return;
  case 'child_name':state.breach++;next('아이가 내 이름을 부르자 매장 안의 모든 냉장고가 함께 대답한다.','blackout');return;
  case 'receipt':state.flags.receipt=true;safeStore();showSheet('<p class="sheetNote">계산대에서 출력된 영수증의 뒷면이다.</p><div class="rule">「나는 계산대 아래에 없어.<br>다른 나에게 이름 말하지 마.<br>문 안에서 세 번 두드리면 대답해 줘.」</div><p class="sheetNote">단서 획득: 영수증</p>');return;
  case 'stockcheck':state.flags.stock=true;safeStore();showSheet('<p class="sheetNote">문턱의 흰 선을 관찰했다.</p><div class="rule">손잡이 아래에는 비상 해제 단추가 있다. 창고 문은 안쪽에서 열 수 없다. <br><br>똑, 똑, 똑. 잠깐의 침묵. 그리고 다시 세 번.</div><p class="sheetNote">단서 획득: 창고 문턱</p>');return;
