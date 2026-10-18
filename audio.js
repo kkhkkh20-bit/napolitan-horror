@@ -1,7 +1,7 @@
 /* Procedural original game audio. No outside media files or third-party licenses. */
 (function(){
   'use strict';
-  let ctx=null, master=null, ambiance=null, noiseBuffer=null;
+  let ctx=null, master=null, ambiance=null, noiseBuffer=null, atmosphereTimer=null;
   let enabled=true, playable=false, lastScene='';
   const PREF='napolitan-audio-enabled-v1';
   try{enabled=localStorage.getItem(PREF)!=='0'}catch(e){}
@@ -66,17 +66,29 @@
     if(!ctx||ambiance)return;
     ambiance=ctx.createGain();ambiance.gain.value=0;ambiance.connect(master);
     let nodes=[];
-    for(const [f,w,v] of [[46,'sine',.042],[47.6,'triangle',.025],[91,'sine',.012],[163,'sine',.004]]){
+    for(const [f,w,v] of [[90,'sine',.036],[93,'triangle',.020],[169,'sine',.025],[181,'sine',.019],[251,'sine',.006]]){
       const o=ctx.createOscillator(),g=ctx.createGain();
       o.type=w;o.frequency.value=f;g.gain.value=v;
       o.connect(g);g.connect(ambiance);o.start();nodes.push(o);
     }
     let n=ctx.createBufferSource(),low=ctx.createBiquadFilter(),ng=ctx.createGain();
-    n.buffer=noiseBuffer;n.loop=true;low.type='lowpass';low.frequency.value=220;ng.gain.value=.025;
+    n.buffer=noiseBuffer;n.loop=true;low.type='lowpass';low.frequency.value=800;ng.gain.value=.042;
     n.connect(low);low.connect(ng);ng.connect(ambiance);n.start();nodes.push(n);
     let lfo=ctx.createOscillator(),depth=ctx.createGain();lfo.frequency.value=.11;depth.gain.value=.14;
     lfo.connect(depth);depth.connect(ambiance.gain);lfo.start();nodes.push(lfo);
     ambiance.gain.setTargetAtTime(.75,ctx.currentTime,.6);
+    // Sparse dissonant notes make the ambient track audible on small phone speakers.
+    if(!atmosphereTimer&&typeof window.setInterval==='function'){
+      let phrase=0;
+      atmosphereTimer=window.setInterval(()=>{
+        if(!enabled||!playable||!ctx||ctx.state!=='running')return;
+        const tones=[[247,263],[220,233],[262,277],[196,208]];
+        const pair=tones[phrase++%tones.length];
+        tone(pair[0],0,3.1,.019,'sine');
+        tone(pair[1],.18,2.6,.011,'triangle');
+        hiss(1.6,.55,.023,2300,true);
+      },7900);
+    }
   }
   function unlock(){
     if(!init())return false;
